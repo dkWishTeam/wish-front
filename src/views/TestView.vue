@@ -1,5 +1,5 @@
 <template>
-  <p>Test 입니당.</p>
+  <p>로그인 성공</p>
 </template>
 
 <script setup></script>

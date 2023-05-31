@@ -9,7 +9,7 @@ module.exports = {
       colors: {
         primary: "#0061f2",
         primary_hover: "#0149c7",
-        articleColor: "#bcd3fa",
+        articleColor: "#d7d7fa",
       },
     },
   },

@@ -1,11 +1,11 @@
 <template>
-  <article class="text-center py-5 mb-20 bg-articleColor">
+  <article class="text-center pt-5 pb-10 mb-11 bg-articleColor">
     <h1
       class="text-center my-9 font-extrabold leading-none tracking-tight text-gray-900 text-6xl"
     >
       We wish your wishes
     </h1>
-    <p class="mb-6 text-lg font-normal text-gray-500">
+    <p class="mb-6 text-lg font-normal text-gray-600">
       당신의 소망을 이루는 첫 걸음, Wish와 함께하세요! 당신이 원하는 물건을
       구매할 수 있게 도와주며 다른 이들의 위시 내역을 보며 자극을 받을 수
       있습니다. <br />Wish는 함께하는 여정에서 당신의 꿈을 현실로
