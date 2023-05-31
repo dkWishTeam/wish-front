@@ -6,3 +6,8 @@ export const wishHistoryList = (data) => {
   const uri = `/wishes/${data}/wishHistories`;
   return instance.get(uri);
 };
+
+export const getWishPlaceList = (path) => {
+  const uri = `/place/${path}`;
+  return instance.get(uri);
+};
