@@ -20,6 +20,12 @@ const routes = [
     component: TestView,
   },
   {
+    path: "/signUp",
+    name: "signUp",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/SignUpView.vue"),
+  },
+  {
     path: "/wishHistory",
     name: "wishHistory",
     component: () =>
@@ -32,4 +38,14 @@ const router = createRouter({
   routes,
 });
 
-export default router;
+const navigateToHome = () => {
+  router.push({ name: "home" });
+};
+
+const navigateToLogin = () => {
+  router.push({ name: "login" });
+};
+
+export default router; // 기본 내보내기로 설정
+
+export { navigateToHome, navigateToLogin };
