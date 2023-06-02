@@ -32,6 +32,14 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/MyPageView.vue"),
   },
   {
+    path: "/memberManagement",
+    name: "memberManagement",
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ "../views/MemberManagementView.vue"
+      ),
+  },
+  {
     path: "/wishHistory",
     name: "wishHistory",
     component: () =>

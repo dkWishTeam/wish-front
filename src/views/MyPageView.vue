@@ -1,172 +1,175 @@
 <template>
-  <form @submit.prevent="updateUser">
-    <div>
-      <label for="userId">사용자 아이디</label>
-      <input
-        type="text"
-        id="userId"
-        v-model="user.userId"
-        required
-        placeholder="사용자 아이디를 입력해주세요"
-        :style="
-          userIdValidation !== null
-            ? { borderColor: userIdValidation ? 'green' : 'red' }
-            : ''
-        "
+  <div class="sidebar-wrapper">
+    <SideBarComponent></SideBarComponent>
+    <form @submit.prevent="updateUser">
+      <div>
+        <label for="userId">사용자 아이디</label>
+        <input
+          type="text"
+          id="userId"
+          v-model="user.userId"
+          required
+          placeholder="사용자 아이디를 입력해주세요"
+          :style="
+            userIdValidation !== null
+              ? { borderColor: userIdValidation ? 'green' : 'red' }
+              : ''
+          "
+        />
+        <text
+          :style="
+            userIdValidation !== null
+              ? { color: userIdValidation ? 'green' : 'red' }
+              : ''
+          "
+          >{{ userIdMessage }}</text
+        >
+      </div>
+      <div>
+        <label for="password">비밀번호</label>
+        <input
+          type="password"
+          id="password"
+          v-model="user.password"
+          placeholder="비밀번호를 입력해주세요"
+          required
+          :style="
+            passwordValidation !== null
+              ? { borderColor: passwordValidation ? 'green' : 'red' }
+              : ''
+          "
+        />
+        <text
+          :style="
+            passwordValidation !== null
+              ? { color: passwordValidation ? 'green' : 'red' }
+              : ''
+          "
+          >{{ passwordMessage }}</text
+        >
+      </div>
+      <div>
+        <label for="email">이메일</label>
+        <input
+          type="email"
+          id="email"
+          v-model="user.email"
+          required
+          placeholder="이메일을 입력해주세요"
+          :style="
+            emailValidation !== null
+              ? { borderColor: emailValidation ? 'green' : 'red' }
+              : ''
+          "
+        />
+        <text
+          :style="
+            emailValidation !== null
+              ? { color: emailValidation ? 'green' : 'red' }
+              : ''
+          "
+          >{{ emailMessage }}</text
+        >
+      </div>
+      <div>
+        <label for="name">이름</label>
+        <input
+          type="text"
+          id="name"
+          v-model="user.name"
+          required
+          placeholder="이름 입력"
+          :style="
+            nameValidation !== null
+              ? { borderColor: nameValidation ? 'green' : 'red' }
+              : ''
+          "
+        />
+        <text
+          :style="
+            nameValidation !== null
+              ? { color: nameValidation ? 'green' : 'red' }
+              : ''
+          "
+          >{{ nameMessage }}</text
+        >
+      </div>
+      <div>
+        <label for="birth">생년월일</label>
+        <input
+          type="date"
+          id="birth"
+          v-model="user.birth"
+          required
+          :style="
+            birthValidation !== null
+              ? { borderColor: birthValidation ? 'green' : 'red' }
+              : ''
+          "
+        />
+        <br />
+        <text
+          :style="
+            birthValidation !== null
+              ? { color: birthValidation ? 'green' : 'red' }
+              : ''
+          "
+          >{{ birthMessage }}</text
+        >
+      </div>
+      <div>
+        <label for="phone">전화번호</label>
+        <input
+          type="text"
+          id="phone"
+          v-model="user.phone"
+          placeholder="'-'빼고 숫자만입력"
+          required
+          :style="
+            phoneValidation !== null
+              ? { borderColor: phoneValidation ? 'green' : 'red' }
+              : ''
+          "
+        />
+        <text
+          :style="
+            phoneValidation !== null
+              ? { color: phoneValidation ? 'green' : 'red' }
+              : ''
+          "
+          >{{ phoneMessage }}</text
+        >
+      </div>
+      <div>
+        <label for="nickname">닉네임</label>
+        <input
+          type="text"
+          id="nickname"
+          v-model="user.nickname"
+          placeholder="닉네임 입력"
+          required
+          :style="
+            nicknameValidation !== null
+              ? { borderColor: nicknameValidation ? 'green' : 'red' }
+              : ''
+          "
+        />
+        <text
+          :style="
+            nicknameValidation !== null
+              ? { color: nicknameValidation ? 'green' : 'red' }
+              : ''
+          "
+          >{{ nicknameMessage }}</text
+        >
+      </div>
+      <input id="submitButton" type="submit" value="회원 정보 수정" />
+      <UpdateUserSuccessPopUp
+        v-if="showSuccessPopUp"
+        @close="closeSuccessPopUp"
       />
-      <text
-        :style="
-          userIdValidation !== null
-            ? { color: userIdValidation ? 'green' : 'red' }
-            : ''
-        "
-        >{{ userIdMessage }}</text
-      >
-    </div>
-    <div>
-      <label for="password">비밀번호</label>
-      <input
-        type="password"
-        id="password"
-        v-model="user.password"
-        placeholder="비밀번호를 입력해주세요"
-        required
-        :style="
-          passwordValidation !== null
-            ? { borderColor: passwordValidation ? 'green' : 'red' }
-            : ''
-        "
-      />
-      <text
-        :style="
-          passwordValidation !== null
-            ? { color: passwordValidation ? 'green' : 'red' }
-            : ''
-        "
-        >{{ passwordMessage }}</text
-      >
-    </div>
-    <div>
-      <label for="email">이메일</label>
-      <input
-        type="email"
-        id="email"
-        v-model="user.email"
-        required
-        placeholder="이메일을 입력해주세요"
-        :style="
-          emailValidation !== null
-            ? { borderColor: emailValidation ? 'green' : 'red' }
-            : ''
-        "
-      />
-      <text
-        :style="
-          emailValidation !== null
-            ? { color: emailValidation ? 'green' : 'red' }
-            : ''
-        "
-        >{{ emailMessage }}</text
-      >
-    </div>
-    <div>
-      <label for="name">이름</label>
-      <input
-        type="text"
-        id="name"
-        v-model="user.name"
-        required
-        placeholder="이름 입력"
-        :style="
-          nameValidation !== null
-            ? { borderColor: nameValidation ? 'green' : 'red' }
-            : ''
-        "
-      />
-      <text
-        :style="
-          nameValidation !== null
-            ? { color: nameValidation ? 'green' : 'red' }
-            : ''
-        "
-        >{{ nameMessage }}</text
-      >
-    </div>
-    <div>
-      <label for="birth">생년월일</label>
-      <input
-        type="date"
-        id="birth"
-        v-model="user.birth"
-        required
-        :style="
-          birthValidation !== null
-            ? { borderColor: birthValidation ? 'green' : 'red' }
-            : ''
-        "
-      />
-      <br />
-      <text
-        :style="
-          birthValidation !== null
-            ? { color: birthValidation ? 'green' : 'red' }
-            : ''
-        "
-        >{{ birthMessage }}</text
-      >
-    </div>
-    <div>
-      <label for="phone">전화번호</label>
-      <input
-        type="text"
-        id="phone"
-        v-model="user.phone"
-        placeholder="'-'빼고 숫자만입력"
-        required
-        :style="
-          phoneValidation !== null
-            ? { borderColor: phoneValidation ? 'green' : 'red' }
-            : ''
-        "
-      />
-      <text
-        :style="
-          phoneValidation !== null
-            ? { color: phoneValidation ? 'green' : 'red' }
-            : ''
-        "
-        >{{ phoneMessage }}</text
-      >
-    </div>
-    <div>
-      <label for="nickname">닉네임</label>
-      <input
-        type="text"
-        id="nickname"
-        v-model="user.nickname"
-        placeholder="닉네임 입력"
-        required
-        :style="
-          nicknameValidation !== null
-            ? { borderColor: nicknameValidation ? 'green' : 'red' }
-            : ''
-        "
-      />
-      <text
-        :style="
-          nicknameValidation !== null
-            ? { color: nicknameValidation ? 'green' : 'red' }
-            : ''
-        "
-        >{{ nicknameMessage }}</text
-      >
-    </div>
-    <input id="submitButton" type="submit" value="회원 정보 수정" />
-    <UpdateUserSuccessPopUp
-      v-if="showSuccessPopUp"
-      @close="closeSuccessPopUp"
-    />
-  </form>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -180,9 +183,11 @@ import {
 } from "vue";
 import axios from "axios";
 import UpdateUserSuccessPopUp from "@/components/UpdateUserSuccessPopUp";
+import SideBarComponent from "@/components/common/SideBarComponent";
 
 export default defineComponent({
   components: {
+    SideBarComponent,
     UpdateUserSuccessPopUp,
   },
   setup() {
@@ -538,5 +543,9 @@ label {
 input[type="submit"]:hover {
   background-color: #0764c0;
   width: 100%;
+}
+.sidebar-wrapper {
+  display: flex;
+  flex-direction: row;
 }
 </style>
