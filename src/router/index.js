@@ -37,10 +37,10 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "about" */ "../views/MemberManagementView.vue"
-      ),
+        ),
   },
   {
-    path: "/wishHistory",
+    path: "/wishes/:wishId/wishHistories",
     name: "wishHistory",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/WishHistoryView.vue"),
