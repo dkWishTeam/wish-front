@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import TestView from "../views/TestView.vue";
 import LoginView from "../views/LoginView.vue";
+import WishCreateForm from "@/components/wish/WishCreateForm.vue";
+import UserWishMainView from "@/views/wish/UserWishMainView.vue";
 
 const routes = [
   {
@@ -38,6 +40,16 @@ const routes = [
       import(
         /* webpackChunkName: "about" */ "../views/MemberManagementView.vue"
       ),
+  },
+  {
+    path: "/users/:id/wishes/json",
+    name: "UserWishMainView",
+    component: UserWishMainView,
+  },
+  {
+    path: "/WishCreate",
+    name: "WishCreate",
+    component: WishCreateForm,
   },
   {
     path: "/wishHistory",

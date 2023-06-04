@@ -16,7 +16,6 @@ export const wishPlaceStore = defineStore("wishPlace", () => {
     // }
     const response = await getWishPlaceList(path);
     wishPlaceList.value = response;
-    console.log(wishPlaceList);
   };
 
   return { wishPlaceList, updateWishPlace, selectedBtnIndex };
