@@ -101,7 +101,6 @@
 import { ref } from "vue";
 import { BASE_URL } from "@/services/requestHandler";
 import axios from "axios";
-//import router from "@/router";
 
 const rememberCheck = ref(false);
 
@@ -121,14 +120,19 @@ const loginSubmit = async () => {
   };
 
   try {
-    const response = await axios.post(BASE_URL + "/login", user);
+    const response = await axios.post(
+      BASE_URL + "/login",
+      user,
+      rememberCheck.value
+    );
     if (response.status === 200) {
       // 로그인 성공 시 처리
-      if (response.data === "loginSuccess") {
-        console.log(response);
-        const cookie = response.headers["Set-Cookie"];
-        console.log(cookie);
-        //router.push({ path: "/" });
+      if (response.data.includes("loginSuccess")) {
+        const userInfo = response.data.split(":");
+        localStorage.setItem("userId", userInfo[1]);
+        localStorage.setItem("userNickname", userInfo[2]);
+        localStorage.setItem("userRole", userInfo[3]);
+        window.location.href = "/";
       } else {
         loginMsg.value = response.data;
       }

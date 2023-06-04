@@ -11,7 +11,6 @@
       있습니다. <br />Wish는 함께하는 여정에서 당신의 꿈을 현실로
       만들어드립니다. 지금 Wish와 함께 꿈을 이루어나가보세요!
     </p>
-
     <a
       href="/WishCreate"
       class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white bg-primary rounded-lg hover:bg-primary_hover focus:ring-4 focus:ring-blue-300"

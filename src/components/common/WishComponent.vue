@@ -1,13 +1,19 @@
 <template>
   <div class="w-72 bg-white shadow border border-gray-300">
     <div class="w-full">
-      <a href="/" class="h-48 overflow-hidden block">
+      <router-link
+        :to="{
+          name: 'wishHistory',
+          params: { wishId: props.wishId },
+        }"
+        class="h-48 overflow-hidden block"
+      >
         <img
           class="w-full"
           src="../../../public/images/default.png"
           alt="default"
         />
-      </a>
+      </router-link>
     </div>
     <div class="px-1.5">
       <a href="/">
@@ -57,9 +63,4 @@ const props = defineProps({
 const formatAmount = (value) => {
   return value.toLocaleString();
 };
-// const getImageUrl = (imgSrc) => {
-//   return "../../../public" + imgSrc;
-// };
-
-//v-bind:src="getImageUrl(props.imgSrc)"
 </script>
