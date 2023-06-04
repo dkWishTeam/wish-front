@@ -13,6 +13,10 @@ export const getWishPlaceList = (path) => {
 };
 export const BASE_URL = "http://localhost:8090";
 export const getLoginUser = (user) => {
-  const uri = `/loginTest`;
+  const uri = `/login`;
   return instance.post(uri, user);
+};
+export const userLogout = () => {
+  const uri = `/logout`;
+  return instance.get(uri);
 };
