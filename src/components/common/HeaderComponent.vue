@@ -20,11 +20,15 @@
             class="flex flex-col mt-4font-medium lg:flex-row lg:space-x-8 lg:mt-0"
           >
             <li>
-              <a
-                href="/"
+              <router-link
+                :to="{
+                  name: 'UserWishMainView',
+                  params: { id: 1 },
+                }"
                 class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 lg:border-0 hover:text-primary lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                >마이 위시</a
               >
+                마이 위시
+              </router-link>
             </li>
             <li>
               <a
