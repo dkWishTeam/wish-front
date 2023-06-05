@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import TestView from "../views/TestView.vue";
-import LoginView from "../views/LoginView.vue";
 import UserWishMainView from "@/views/wish/UserWishMainView.vue";
 import WishCreateView from "@/views/wish/WishCreateView.vue";
 
@@ -14,7 +13,8 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: LoginView,
+    component: () => import("../views/LoginView.vue"),
+    meta: { idLogined: true },
   },
   {
     path: "/test",
@@ -24,22 +24,20 @@ const routes = [
   {
     path: "/signUp",
     name: "signUp",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/SignUpView.vue"),
+    component: () => import("../views/SignUpView.vue"),
+    meta: { idLogined: true },
   },
   {
     path: "/myPage",
     name: "myPage",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MyPageView.vue"),
+    component: () => import("../views/MyPageView.vue"),
+    meta: { authRequired: true },
   },
   {
     path: "/memberManagement",
     name: "memberManagement",
-    component: () =>
-      import(
-        /* webpackChunkName: "about" */ "../views/MemberManagementView.vue"
-      ),
+    component: () => import("../views/MemberManagementView.vue"),
+    meta: { authManagerRequired: true },
   },
   {
     path: "/users/:id/wishes",
@@ -50,12 +48,12 @@ const routes = [
     path: "/WishCreate",
     name: "WishCreate",
     component: WishCreateView,
+    meta: { authRequired: true },
   },
   {
     path: "/wishes/:wishId/wishHistories",
     name: "wishHistory",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/WishHistoryView.vue"),
+    component: () => import("../views/WishHistoryView.vue"),
   },
 ];
 
@@ -71,6 +69,31 @@ const navigateToHome = () => {
 const navigateToLogin = () => {
   router.push({ name: "login" });
 };
+
+router.beforeEach(function (to, from, next) {
+  // to : 이동할 페이지
+  // from : 현재 페이지
+  if (to.meta.idLogined && localStorage.getItem("userId") !== null) {
+    next("/");
+    return;
+  }
+
+  if (to.meta.authRequired && localStorage.getItem("userId") == null) {
+    next("/");
+    return;
+  }
+
+  if (
+    to.meta.authManagerRequired &&
+    localStorage.getItem("userRole") !== "ADMIN"
+  ) {
+    alert("관리자가 아닙니다.");
+    //next("/");
+    return;
+  }
+
+  next();
+});
 
 export default router; // 기본 내보내기로 설정
 
