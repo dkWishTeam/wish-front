@@ -37,7 +37,7 @@ const wishList = ref({});
 
 const getData = async () => {
   // wishList.value = await mixins.methods.$api(url.wishes, "get");
-  return await mixins.methods.$api(url.getUserWish(1), "get");
+  return await mixins.methods.$api(url.getUserWishes(1), "get");
 };
 getData().then((res) => console.log((wishList.value = res)));
 console.log(wishList.value);

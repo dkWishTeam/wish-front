@@ -5,8 +5,8 @@
     <Records :wishId="routeWishId"></Records>
     <ModalComponent :wishId="routeWishId"></ModalComponent>
   </div>
-  <section id="sec1" class="container mx-auto pt-8 pb-20 flex-grow"
-           th:style="${rate.percent >= 100} ? 'background-image: url(\'/images/congratulation.gif\');' : ''">
+  <!--    <section id="sec1" class="container mx-auto pt-8 pb-20 flex-grow"-->
+  <!--             th:style="${rate.percent >= 100} ? 'background-image: url(\'/images/congratulation.gif\');' : ''">-->
 </template>
 
 <script setup>
@@ -21,11 +21,6 @@ const route = useRoute();
 const routeWishId = route.params.wishId;
 
 console.log("파람 : " + route.params.wishId);
-
-
 </script>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>
