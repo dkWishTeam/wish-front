@@ -99,19 +99,15 @@
 
 <script setup>
 import { ref } from "vue";
-import { BASE_URL } from "@/services/requestHandler";
-import axios from "axios";
+import { getLoginUser } from "@/services/requestHandler";
+import { useCookies } from "vue3-cookies";
 
-const rememberCheck = ref(false);
+const { cookies } = useCookies();
 
-const userId = ref("");
+const rememberCheck = ref(cookies.get("rememberId"));
+const userId = ref(cookies.get("userIdCookie"));
 const password = ref("");
 const loginMsg = ref("");
-
-// onMounted(async () => {
-//   const rememberId = await axios.get(BASE_URL + "/loginId");
-//   userId.value = rememberId.data;
-// });
 
 const loginSubmit = async () => {
   const user = {
@@ -119,30 +115,24 @@ const loginSubmit = async () => {
     password: password.value,
   };
 
-  try {
-    const response = await axios.post(
-      BASE_URL + "/login",
-      user,
-      rememberCheck.value
-    );
-    if (response.status === 200) {
-      // 로그인 성공 시 처리
-      if (response.data.includes("loginSuccess")) {
-        const userInfo = response.data.split(":");
-        localStorage.setItem("userId", userInfo[1]);
-        localStorage.setItem("userNickname", userInfo[2]);
-        localStorage.setItem("userRole", userInfo[3]);
-        window.location.href = "/";
-      } else {
-        loginMsg.value = response.data;
-      }
+  const response = await getLoginUser(user);
+  // 로그인 성공 시 처리
+  if (response.includes("loginSuccess")) {
+    const userInfo = response.split(":");
+    localStorage.setItem("userId", userInfo[1]);
+    localStorage.setItem("userNickname", userInfo[2]);
+    localStorage.setItem("userRole", userInfo[3]);
+
+    if (rememberCheck.value === true) {
+      cookies.set("userIdCookie", user.userId, 60 * 60 * 24 * 3);
+      cookies.set("rememberId", true, 60 * 60 * 24 * 3);
     } else {
-      // 응답 상태 코드가 200이 아닌 경우 처리
-      console.log(response.statusText);
+      cookies.remove("userIdCookie");
+      cookies.remove("rememberId");
     }
-  } catch (error) {
-    // 요청 실패 처리
-    console.log(error);
+    window.location.href = "/";
+  } else {
+    loginMsg.value = response;
   }
 };
 </script>

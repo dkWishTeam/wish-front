@@ -16,13 +16,18 @@
       </router-link>
     </div>
     <div class="px-1.5">
-      <a href="/">
+      <router-link
+        :to="{
+          name: 'wishHistory',
+          params: { wishId: props.wishId },
+        }"
+      >
         <h5
           class="my-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white"
         >
           {{ props.productName }}
         </h5>
-      </a>
+      </router-link>
 
       <p class="mb-1.5 font-normal text-gray-400 dark:text-gray-400">
         {{ props.nickname }}
