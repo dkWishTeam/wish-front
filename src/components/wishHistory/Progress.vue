@@ -1,7 +1,7 @@
 <template>
   <div
     id="progressBarBox"
-    class="clear-both pt-12 px-7 pb-5 border border-gray-200 rounded-lg"
+    class="clear-both pt-12 px-7 pb-10 shadow rounded-lg"
   >
     <div class="flex items-center justify-between mb-3 pr-16">
       <span
@@ -26,16 +26,16 @@
 
 <script setup>
 import { wishHistoryInfoStore } from "@/store/wishHistoryInfo";
-import { ref, computed, defineProps, watchEffect } from "vue";
+import { ref, computed, defineProps, watchEffect, defineEmits } from "vue";
+
+const percent = ref("");
+const cheerUpPhrase = ref("");
 
 const props = defineProps({
   wishId: Number,
 });
 
 const store = wishHistoryInfoStore();
-
-const percent = ref("");
-const cheerUpPhrase = ref("");
 
 const init = async () => {
   await store.fetchData(props.wishId);
@@ -65,10 +65,13 @@ const fillAnimation = computed(() => {
 watchEffect(() => {
   if (formattedPercent.value !== "0%") {
     isAnimated.value = true;
+    emit("updatePercent", percent.value);
   } else {
     isAnimated.value = false;
   }
 });
+
+let emit = defineEmits(["updatePercent"]);
 </script>
 
 <style scoped>
