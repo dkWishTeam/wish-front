@@ -1,23 +1,23 @@
 <template>
-  <div id="wishBox" class="pl-8 pt-6">
-    <div id="wishTitleBox" class="flex">
-      <h2
-        id="wishTitle"
-        class="leading-10 ml-8 mr-10 text-xl text-gray-800 mb-6 mt-"
-      >
-        {{ nickname }}님의 {{ title }}위시입니다.
+  <div id="wishBox" class="px-4 pt-12">
+    <div id="wishTitleBox">
+      <p id="wishTitle" class="mt-4 text-lg text-gray-500">
+        {{ nickname }}님의
+      </p>
+      <h2 class="leading-10 font-medium text-3xl mt-2 mb-2 text-gray-600">
+        {{ title }}위시입니다.
       </h2>
     </div>
     <div class="flex justify-end">
       <button
         id="updateButton"
-        class="bg-blue-600 w-28 py-3 rounded-lg text-sm text-white cursor-pointer mt-5 mb-3 hover:bg-gradient-to-br from-purple-600 to-blue-500"
+        class="bg-blue-600 w-28 py-3 rounded-lg text-sm text-gray-900 cursor-pointer mt-5 mb-3 mr-2 focus:outline-none bg-white border border-gray-200 hover:bg-gray-100 text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
       >
         위시수정하기
       </button>
       <button
         id="resetButton"
-        class="bg-blue-600 w-28 py-3 rounded-lg text-sm text-white cursor-pointer mt-5 mb-3 hover:bg-gradient-to-br from-purple-600 to-blue-500"
+        class="bg-blue-50 w-28 py-3 rounded-lg text-sm cursor-pointer mt-5 mb-3 hover:bg-blue-100 hover:text-blue-600 text-blue focus:z-10 focus:ring-4 focus:ring-blue-200"
       >
         위시삭제하기
       </button>
