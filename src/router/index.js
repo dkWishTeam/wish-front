@@ -68,6 +68,11 @@ const routes = [
     name: "wishHistory",
     component: () => import("../views/WishHistoryView.vue"),
   },
+  {
+    path: "/wishPlace",
+    name: "wishPlace",
+    component: () => import("../views/WishPlaceView.vue"),
+  },
 ];
 
 const router = createRouter({

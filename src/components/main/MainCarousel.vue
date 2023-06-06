@@ -27,14 +27,12 @@ import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
   background-color: #b4d0fd;
   color: white;
   font-size: 20px;
-  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .carousel__slide {
-  padding: 10px;
 }
 
 .carousel__prev,

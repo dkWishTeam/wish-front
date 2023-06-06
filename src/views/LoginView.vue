@@ -86,6 +86,7 @@
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
               계정이 없으신가요?
               <a
+                href="/signUp"
                 class="font-medium text-primary hover:underline dark:text-primary-500"
                 >회원가입</a
               >

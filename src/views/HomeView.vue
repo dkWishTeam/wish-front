@@ -13,7 +13,7 @@
       />
     </div>
 
-    <div class="flex flex-wrap justify-center mx-auto mb-24">
+    <div class="flex flex-wrap justify-center mx-auto mb-7">
       <WishComponent
         class="mb-5 mr-3"
         v-for="(item, index) in store.wishPlaceList"
@@ -28,6 +28,12 @@
         :productName="item.productName"
       />
     </div>
+
+    <a
+      href="/WishPlace"
+      class="text-white mb-20 bg-primary hover:bg-primary_hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+      >더 보러가기</a
+    >
   </div>
 </template>
 
@@ -46,5 +52,5 @@ const btnArr = [
   { path: "ongoing", text: "진행중" },
   { path: "new", text: "최신순" },
 ];
-store.updateWishPlace("all");
+store.updateWishPlace("all", 0, 4);
 </script>
