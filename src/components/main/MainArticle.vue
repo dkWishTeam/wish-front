@@ -1,5 +1,5 @@
 <template>
-  <article class="text-center pt-5 pb-10 mb-11 bg-articleColor">
+  <article class="text-center pt-16 pb-10 bg-articleColor">
     <h1
       class="text-center my-9 font-extrabold leading-none tracking-tight text-gray-900 text-6xl"
     >
