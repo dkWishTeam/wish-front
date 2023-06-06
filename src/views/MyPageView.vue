@@ -242,7 +242,9 @@ export default defineComponent({
       }
 
       try {
-        const response = await axios.get("http://localhost:8090/users/" + 1); // API 경로는 실제 서버에 맞게 변경해 주세요.
+        const response = await axios.get(
+          "http://localhost:8090/users/" + localStorage.getItem("id")
+        ); // API 경로는 실제 서버에 맞게 변경해 주세요.
         //todo 서버에서 받은 회원의 id 를 알아내서 path에 적기
         user.value = response.data;
         originUser.value = response.data;

@@ -99,8 +99,9 @@
 
 <script setup>
 import { ref } from "vue";
-import { getLoginUser } from "@/services/requestHandler";
+import { BASE_URL } from "@/services/requestHandler";
 import { useCookies } from "vue3-cookies";
+import axios from "axios";
 
 const { cookies } = useCookies();
 
@@ -111,20 +112,19 @@ const loginMsg = ref("");
 
 const loginSubmit = async () => {
   const user = {
-    userId: userId.value,
+    username: userId.value,
     password: password.value,
   };
-
-  const response = await getLoginUser(user);
-  // 로그인 성공 시 처리
-  if (response.includes("loginSuccess")) {
-    const userInfo = response.split(":");
-    localStorage.setItem("userId", userInfo[1]);
-    localStorage.setItem("userNickname", userInfo[2]);
-    localStorage.setItem("userRole", userInfo[3]);
-
+  const response = await axios.post(BASE_URL + "/login", user);
+  if (response.status === 200) {
+    console.log(response.data);
+    localStorage.setItem("jwt", response.data.token);
+    localStorage.setItem("id", response.data.id);
+    localStorage.setItem("userId", response.data.userId);
+    localStorage.setItem("nickname", response.data.nickname);
+    localStorage.setItem("userRole", response.data.role);
     if (rememberCheck.value === true) {
-      cookies.set("userIdCookie", user.userId, 60 * 60 * 24 * 3);
+      cookies.set("userIdCookie", user.username, 60 * 60 * 24 * 3);
       cookies.set("rememberId", true, 60 * 60 * 24 * 3);
     } else {
       cookies.remove("userIdCookie");
@@ -132,7 +132,7 @@ const loginSubmit = async () => {
     }
     window.location.href = "/";
   } else {
-    loginMsg.value = response;
+    console.log("errorwithLoginn");
   }
 };
 </script>
