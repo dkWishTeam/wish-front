@@ -1,5 +1,5 @@
 <template>
-  <div class="w-72 bg-white shadow border border-gray-300">
+  <div class="w-80 bg-white shadow border border-gray-300">
     <div class="w-full">
       <router-link
         :to="{

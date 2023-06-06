@@ -13,9 +13,6 @@ module.exports = {
         // articleColor: "#d7d7fa",
       },
     },
-    screens: {
-      sm: "360px", // mobile 사이즈로 설정
-    },
   },
   plugins: [],
 };

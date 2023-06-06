@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import TestView from "../views/TestView.vue";
 import UserWishMainView from "@/views/wish/UserWishMainView.vue";
 import WishCreateView from "@/views/wish/WishCreateView.vue";
 
@@ -14,30 +13,37 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),
-    meta: { idLogined: true },
-  },
-  {
-    path: "/test",
-    name: "test",
-    component: TestView,
+    meta: { isLogined: true },
   },
   {
     path: "/signUp",
     name: "signUp",
     component: () => import("../views/SignUpView.vue"),
-    meta: { idLogined: true },
+    meta: { isLogined: true },
   },
   {
     path: "/myPage",
     name: "myPage",
     component: () => import("../views/MyPageView.vue"),
-    meta: { authRequired: true },
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("userId") == null) {
+        next("/");
+        return;
+      }
+      next();
+    },
   },
   {
     path: "/memberManagement",
     name: "memberManagement",
     component: () => import("../views/MemberManagementView.vue"),
-    meta: { authManagerRequired: true },
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("userRole") !== "ADMIN") {
+        alert("관리자가 아닙니다.");
+        return;
+      }
+      next();
+    },
   },
   {
     path: "/users/:id/wishes",
@@ -48,7 +54,14 @@ const routes = [
     path: "/WishCreate",
     name: "WishCreate",
     component: WishCreateView,
-    meta: { authRequired: true },
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("userId") == null) {
+        alert("로그인을 해주세요");
+        next("/login");
+        return;
+      }
+      next();
+    },
   },
   {
     path: "/wishes/:wishId/wishHistories",
@@ -73,25 +86,10 @@ const navigateToLogin = () => {
 router.beforeEach(function (to, from, next) {
   // to : 이동할 페이지
   // from : 현재 페이지
-  if (to.meta.idLogined && localStorage.getItem("userId") !== null) {
+  if (to.meta.isLogined && localStorage.getItem("userId") !== null) {
     next("/");
     return;
   }
-
-  if (to.meta.authRequired && localStorage.getItem("userId") == null) {
-    next("/");
-    return;
-  }
-
-  if (
-    to.meta.authManagerRequired &&
-    localStorage.getItem("userRole") !== "ADMIN"
-  ) {
-    alert("관리자가 아닙니다.");
-    //next("/");
-    return;
-  }
-
   next();
 });
 

@@ -1,5 +1,6 @@
 <template>
   <MainArticle />
+  <MainCarousel class="mb-14" />
   <div class="flex flex-col items-center justify-center">
     <h3 class="text-4xl mb-8">유저들의 위시 리스트에요.🧞🧞‍</h3>
     <div class="mb-8">
@@ -12,7 +13,7 @@
       />
     </div>
 
-    <div class="flex flex-wrap justify-center mx-64 mb-24">
+    <div class="flex flex-wrap justify-center mx-auto mb-24">
       <WishComponent
         class="mb-5 mr-3"
         v-for="(item, index) in store.wishPlaceList"
@@ -35,6 +36,7 @@ import MainArticle from "@/components/main/MainArticle.vue";
 import WishPlaceButton from "@/components/main/WishPlaceButton.vue";
 import { wishPlaceStore } from "@/store/wishPlace";
 import WishComponent from "@/components/common/WishComponent.vue";
+import MainCarousel from "@/components/main/MainCarousel.vue";
 
 const store = wishPlaceStore();
 
