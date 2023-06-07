@@ -1,7 +1,11 @@
 <template>
   <Carousel :autoplay="4000">
-    <slide v-for="slide in 5" :key="slide">
-      <div class="carousel__item">{{ slide }}</div>
+    <slide v-for="slide in 3" :key="slide">
+      <div class="carousel__item">
+        <a v-bind:href="carousel[slide - 1].target">
+          <img v-bind:src="carousel[slide - 1].imgSrc" />
+        </a>
+      </div>
     </slide>
 
     <template #addons>
@@ -14,6 +18,11 @@
 <script setup>
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+const carousel = [
+  { imgSrc: "/images/carousel1.png", target: "/WishCreate" },
+  { imgSrc: "/images/carousel2.png", target: "/wishPlace" },
+  { imgSrc: "/images/carousel3.png", target: "/wishes/129/wishHistories" },
+];
 
 {
   Carousel, Slide, Pagination, Navigation;
@@ -24,7 +33,6 @@ import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 .carousel__item {
   min-height: 350px;
   width: 100%;
-  background-color: #b4d0fd;
   color: white;
   font-size: 20px;
   display: flex;
@@ -32,12 +40,9 @@ import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
   align-items: center;
 }
 
-.carousel__slide {
-}
-
 .carousel__prev,
 .carousel__next {
-  box-sizing: content-box;
-  border: 5px solid white;
+  border: 2px solid white;
+  border-radius: 20px;
 }
 </style>
