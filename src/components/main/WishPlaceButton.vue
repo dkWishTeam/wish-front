@@ -18,7 +18,7 @@ const store = wishPlaceStore();
 const handleClick = () => {
   if (store.selectedBtnIndex !== props.index) {
     store.selectedBtnIndex = props.index;
-    store.updateWishPlace(props.path, 0, 4);
+    store.updateWishPlace(props.path, 0, 3);
     console.log(store.wishPlaceList);
   }
 };
