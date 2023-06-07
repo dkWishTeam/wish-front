@@ -60,8 +60,8 @@
 
 <script>
 import { defineComponent, ref, onMounted, inject } from "vue";
-import axios from "axios";
 import SideBarComponent from "@/components/common/SideBarComponent";
+import { getUsersByAdmin, updateBlockStatus } from "@/services/requestHandler";
 
 export default defineComponent({
   components: {
@@ -72,36 +72,22 @@ export default defineComponent({
 
     const toastr = inject("toastr");
 
-    const getUsers = () => {
-      axios
-        .get("http://localhost:8090/users")
-        .then((response) => {
-          users.value = response.data;
-        })
-        .catch((e) => {
-          console.error(e);
-        });
+    const getUsers = async () => {
+      const response = await getUsersByAdmin();
+      users.value = response;
     };
-    const changeBlockStatus = (id, index) => {
-      axios
-        .put(`http://localhost:8090/users/${id}/block`)
-        .then((response) => {
-          console.log(response.data);
-          console.log(response.data.updated);
-          console.log(response.data.userBlocked);
 
-          users.value[index].block = response.data.userBlocked;
-          if (!response.data.updated) {
-            toastr.error("관리자 계정은 블락할 수 없습니다");
-          } else if (response.data.userBlocked) {
-            toastr.success("블락되었습니다.");
-          } else if (!response.data.userBlocked) {
-            toastr.success("블락이 해제되었습니다.");
-          }
-        })
-        .catch((e) => {
-          console.error(e);
-        });
+    const changeBlockStatus = async (id, index) => {
+      const response = await updateBlockStatus(id);
+
+      users.value[index].block = response.userBlocked;
+      if (!response.updated) {
+        toastr.error("관리자 계정은 블락할 수 없습니다");
+      } else if (response.userBlocked) {
+        toastr.success("블락되었습니다.");
+      } else if (!response.userBlocked) {
+        toastr.success("블락이 해제되었습니다.");
+      }
     };
 
     onMounted(getUsers);

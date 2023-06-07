@@ -6,9 +6,13 @@ const instance = axios.create({
   baseURL: "http://localhost:8090",
 });
 instance.interceptors.request.use(
-  (request) => {
-    // request.headers["Authorization"] = "토큰값";
-    return request;
+  (config) => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      console.log("여기있다.");
+      config.headers.Authorization = `Bearer ${token}`; // JWT를 헤더에 포함시킵니다.
+    }
+    return config;
   },
   (error) => {
     return Promise.reject(error);

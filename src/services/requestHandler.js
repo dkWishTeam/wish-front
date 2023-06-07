@@ -37,3 +37,42 @@ export const userLogout = () => {
   const uri = `/logout`;
   return instance.get(uri);
 };
+export const getMyPage = (id) => {
+  const uri = `/users/${id}`;
+  return instance.get(uri);
+};
+
+export const checkUserId = (userId) => {
+  const uri = `/users/userid-duplicate-check?userId=${userId}`;
+  return instance.get(uri);
+};
+
+export const checkEmail = (email) => {
+  const uri = `/users/email-duplicate-check?email=${email}`;
+  return instance.get(uri);
+};
+
+export const checkNickname = (nickname) => {
+  const uri = `/users/nickname-duplicate-check?nickname=${nickname}`;
+  return instance.get(uri);
+};
+
+export const checkPhone = (phone) => {
+  const uri = `/users/phone-duplicate-check?phone=${phone}`;
+  return instance.get(uri);
+};
+
+export const getUsersByAdmin = () => {
+  const uri = `/users`;
+  return instance.get(uri);
+};
+
+export const userUpdate = (id, user) => {
+  const uri = `/users/${id}`;
+  return instance.put(uri, user);
+};
+
+export const updateBlockStatus = (id) => {
+  const uri = `/users/${id}/block`;
+  return instance.put(uri);
+};
