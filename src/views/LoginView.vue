@@ -115,6 +115,10 @@ const loginSubmit = async () => {
     password: password.value,
   };
   const response = await getLoginUser(user);
+  if (response.loginSuccess !== undefined) {
+    alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+    return;
+  }
   localStorage.setItem("jwt", response.token);
   localStorage.setItem("id", response.id);
   localStorage.setItem("userId", response.userId);
