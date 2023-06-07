@@ -245,22 +245,15 @@ export default defineComponent({
     const showSuccessPopUp = ref(false);
 
     onBeforeMount(async () => {
-      console.log("1");
       function extractDate(user) {
         user.value.birth = user.value.birth.split("T")[0];
       }
-      console.log("2");
       const response = await getMyPage(localStorage.getItem("id"));
-      console.log("3");
       //todo 서버에서 받은 회원의 id 를 알아내서 path에 적기
       user.value = response;
-      console.log("4");
       originUser.value = JSON.parse(JSON.stringify(response));
-      console.log("5");
       extractDate(user);
-      console.log("6");
       extractDate(originUser);
-      console.log("7");
     });
 
     onMounted(() => {
