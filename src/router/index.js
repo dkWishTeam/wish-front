@@ -85,7 +85,7 @@ router.beforeEach(function (to, from, next) {
 
   if (
     to.meta.authManagerRequired &&
-    localStorage.getItem("userRole") !== "ADMIN"
+    localStorage.getItem("userRole") !== "ROLE_ADMIN"
   ) {
     alert("관리자가 아닙니다.");
     //next("/");
