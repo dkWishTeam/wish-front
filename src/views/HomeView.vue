@@ -1,7 +1,7 @@
 <template>
   <article class="max-w-5xl mx-auto">
     <MainArticle />
-    <MainCarousel class="mb-14 max-w-5xl mx-auto" />
+    <MainCarousel class="hidden md:block mb-14 max-w-5xl mx-auto" />
     <div>
       <h3 class="text-4xl mb-8 text-center">유저들의 위시 리스트에요.🧞🧞‍</h3>
       <div class="mb-8 text-center">
@@ -15,28 +15,10 @@
       </div>
 
       <!-- Wish Component -->
-      <!--    <div class="max-w-7xl mx-auto">-->
-      <!--      <div class="grid grid-cols-4 gap-4">-->
-      <!--        <WishComponent-->
-      <!--          v-for="(item, index) in store.wishPlaceList"-->
-      <!--          :key="index"-->
-      <!--          :wishId="item.id"-->
-      <!--          :userId="item.userId"-->
-      <!--          :imgSrc="item.imageSrc"-->
-      <!--          :nickname="item.nickname"-->
-      <!--          :amount="item.ongoingAmountFormat"-->
-      <!--          :percentage="item.percentage"-->
-      <!--          :targetAmount="item.goalAmountFormat"-->
-      <!--          :productName="item.productName"-->
-      <!--        />-->
-      <!--      </div>-->
-      <!--    </div>-->
-
-      <!-- Wish Component -->
       <div>
         <div class="flex w-full flex-wrap">
           <WishComponent
-            class="w-1/3 p-6"
+            class="sm:w-full md:w-1/2 lg:w-1/3 p-6"
             v-for="(item, index) in store.wishPlaceList"
             :key="index"
             :wishId="item.id"

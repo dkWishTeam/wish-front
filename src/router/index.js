@@ -49,6 +49,14 @@ const routes = [
     path: "/users/:id/wishes",
     name: "UserWishMainView",
     component: UserWishMainView,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("userId") === null) {
+        alert("로그인을 해주세요.");
+        next("/login");
+        return;
+      }
+      next();
+    },
   },
   {
     path: "/WishCreate",
