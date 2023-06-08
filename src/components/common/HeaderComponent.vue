@@ -41,7 +41,7 @@
         </div>
 
         <div class="flex items-end items-center lg:order-2">
-          <div v-if="token">
+          <div v-if="token" class="flex">
             <a
               v-if="isLogin != null"
               href="/myPage"
@@ -55,7 +55,7 @@
               >로그아웃</a
             >
           </div>
-          <div v-else>
+          <div v-else class="flex">
             <a
               v-if="isLogin == null"
               href="/signUp"
@@ -74,9 +74,6 @@
               <img src="/images/bar.png" alt="bar_menu" />
             </button>
           </div>
-          <!--          <div class="cursor-pointer w-6 mx-8 md:hidden">-->
-          <!--            <img src="/images/bar.png" alt="bar_menu" />-->
-          <!--          </div>-->
         </div>
       </div>
     </nav>
@@ -259,6 +256,7 @@ const token = ref("");
 
 const getToken = () => {
   token.value = localStorage.getItem("jwt");
+};
 
 const isLogin = localStorage.getItem("userId");
 const sidebarOpen = ref(false);
