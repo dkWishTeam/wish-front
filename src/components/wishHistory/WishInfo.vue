@@ -2,10 +2,10 @@
   <div id="wishBox" class="px-4 pt-12">
     <div id="wishTitleBox">
       <p id="wishTitle" class="mt-4 text-lg text-gray-500">
-        {{ nickname }}님의
+        <span>{{ result.wishUserDto?.nickname }}님의</span>
       </p>
       <h2 class="leading-10 font-medium text-3xl mt-2 mb-2 text-gray-600">
-        {{ title }}위시입니다.
+        {{ result.title }}위시입니다.
       </h2>
     </div>
     <div class="flex justify-end">
@@ -27,25 +27,29 @@
 
 <script setup>
 import { wishHistoryInfoStore } from "@/store/wishHistoryInfo";
-import { ref, defineProps } from "vue";
-const store = wishHistoryInfoStore();
+import { ref, defineProps, onMounted } from "vue";
+import { storeToRefs } from "pinia";
 
-const nickname = ref("");
-const title = ref("");
+const store = wishHistoryInfoStore();
+const { result } = storeToRefs(store);
 
 const props = defineProps({
-  wishId: Number,
+  wishId: { type: Number, default: 12 },
 });
 
-const init = async () => {
-  await store.fetchData(props.wishId);
-  const result = store.result;
-  console.log("result: ", result);
-  nickname.value = result.wishUserDto.nickname;
-  title.value = result.title;
-};
+// const init = async () => {
+//   await store.fetchData(props.wishId);
+//   const result = store.result;
+//   // console.log("result: ", result);
+//   nickname.value = result.wishUserDto.nickname;
+//   title.value = result.title;
+// };
+//
+// init();
 
-init();
+// onMounted(() => {
+//   store.fetchData(props.wishId);
+// });
 </script>
 
 <style></style>

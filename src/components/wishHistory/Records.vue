@@ -13,7 +13,7 @@
   </div>
   <table
     class="clear-both w-full mt-2 border-t-2 border-b-2 border-gray-300 mb-8"
-    v-if="result.wishHistoryList"
+    v-if="result.pageResponseHistoryListDto?.wishHistoryList"
   >
     <tr class="w-full border-b border-gray-200">
       <th
@@ -38,7 +38,8 @@
       </th>
     </tr>
     <tr
-      v-for="(wishHistoryResponseDto, index) in result.wishHistoryList"
+      v-for="(wishHistoryResponseDto, index) in result
+        .pageResponseHistoryListDto?.wishHistoryList"
       :key="index"
       class="wishHistoryList w-full border-b border-gray-200"
     >
@@ -85,49 +86,56 @@
       </td>
     </tr>
   </table>
-
-  <div v-if="!result.wishHistoryList" class="text-center text-gray-500">
-    <p>{{ msg }}</p>
-  </div>
-
-  <!--    <div-->
-  <!--      th:unless="${wishHistoryResponseDtoList}"-->
-  <!--      class="text-center text-gray-500"-->
-  <!--    >-->
-  <!--      <p th:text="${msg}"></p>-->
-  <!--    </div>-->
 </template>
 
 <script setup>
 import { wishHistoryInfoStore } from "@/store/wishHistoryInfo";
-import { reactive, defineProps } from "vue";
+import { defineProps, onMounted } from "vue";
 import { modalStore } from "@/store/modal";
 import { deleteWishHistory } from "@/services/requestHandler";
+import { storeToRefs } from "pinia";
+import Pagination from "@/components/common/Pagination.vue";
 // import { deleteWishHistory } from "@/services/requestHandler";
 const props = defineProps({
-  wishId: Number,
+  wishId: { type: Number, default: 12 },
 });
 
-const result = reactive({
-  wishHistoryList: {},
-});
+// const pageData = reactive({
+//   wishHistoryList: {},
+// });
+// const pageData = ref({});
 
 const store = wishHistoryInfoStore();
-const storeResult = store.result;
+const { result } = storeToRefs(store);
+// const historyList = ref([]);
 
-store.$subscribe(() => {
-  const storeResult = store.result;
-  result.wishHistoryList = storeResult.wishHistoryList;
-});
+// store.$subscribe(() => {
+//   const storeResult = store.result;
+//   result.wishHistoryList = storeResult.wishHistoryList;
+// });
 
-const init = async () => {
-  await store.fetchData(props.wishId);
-  console.log("result: ", storeResult);
-  // result.wishHistoryList = storeResult.wishHistoryList;
-  // title.value = result.title;
-};
+// onMounted(() => {
+//   store.fetchData(props.wishId);
+//   // historyList.value = result.pageResponseHistoryListDto;
+//   console.log("리절트 결과" + result.value);
+// });
 
-init();
+// const init = async () => {
+//   console.log("asdfasdfsdaf");
+//
+//   await store.fetchData(props.wishId);
+//   console.log("result: ", store.result);
+//   pageData.value = store.result;
+//   console.log("page data: ", pageData.value);
+//   // let data = pageData.value;
+//   // console.log(data.title);
+//   // console.log("왜 안돼: " + pageData.value);
+//   // console.log("result:룰루랄라 ", storeResult.value);
+//   // result.wishHistoryList = storeResult.wishHistoryList;
+//   // title.value = result.title;
+// };
+
+// init();
 
 const modal = modalStore();
 const openModal = (buttonMode, id) => {
@@ -141,4 +149,5 @@ const removeWishHistory = async (wishId, wishHistoryId) => {
   await store.fetchData(props.wishId);
 };
 </script>
+
 <style></style>

@@ -55,7 +55,7 @@
                 ? (modify.amount = $event.target.value)
                 : (register.amount = $event.target.value)
             "
-            type="text"
+            type="number"
             name="amount"
             id="createAmount"
             class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-3 dark:border-gray-500 dark:placeholder-gray-400"
