@@ -38,7 +38,7 @@ const routes = [
     name: "memberManagement",
     component: () => import("../views/MemberManagementView.vue"),
     beforeEnter: (to, from, next) => {
-      if (localStorage.getItem("userRole") !== "ADMIN") {
+      if (localStorage.getItem("userRole") !== "ROLE_ADMIN") {
         alert("관리자가 아닙니다.");
         return;
       }
