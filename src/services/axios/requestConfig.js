@@ -9,7 +9,6 @@ instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      console.log("여기있다.");
       config.headers.Authorization = `Bearer ${token}`; // JWT를 헤더에 포함시킵니다.
     }
     return config;
