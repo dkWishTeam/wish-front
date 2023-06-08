@@ -1,16 +1,16 @@
 <template>
-  <div class="flex-grow">
+  <article class="flex-grow">
     <div class="max-w-5xl mx-auto">
-      <div class="pt-16 min-w-full">
+      <section class="pt-16 min-w-full">
         <div class="flex justify-between my-8">
-          <h3 class="text-3xl">전체 Wish 🧞‍</h3>
+          <h3 class="text-3xl pl-6 min-w-max">전체 Wish 🧞‍</h3>
           <form>
             <label
               for="search"
               class="mb-2 text-sm font-medium text-gray-900 sr-only"
               >Search</label
             >
-            <div class="relative">
+            <div class="relative mr-6">
               <div
                 class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
               >
@@ -33,7 +33,7 @@
               <input
                 type="text"
                 v-model="searchWish"
-                class="block w-64 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-primary"
+                class="min-w-max block w-64 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-primary"
                 placeholder="위시 물건 검색"
                 required
               />
@@ -47,7 +47,7 @@
             </div>
           </form>
         </div>
-        <div class="mb-8">
+        <div class="mb-8 pl-6">
           <select
             class="border-2 focus:primary_select rounded-lg w-24 px-3 py-1 border-gray-400"
             v-model="selectedPath"
@@ -59,13 +59,13 @@
             <option value="new">최신순</option>
           </select>
         </div>
-      </div>
+      </section>
 
       <!-- Wish Component -->
-      <div class="max-w-5xl mx-auto">
+      <section class="max-w-5xl mx-auto">
         <div class="flex w-full flex-wrap">
           <WishComponent
-            class="w-1/3 p-6"
+            class="sm:w-full md:w-1/2 lg:w-1/3 p-6"
             v-for="(item, index) in wishList"
             :key="index"
             :wishId="item.id"
@@ -78,31 +78,34 @@
             :productName="item.productName"
           />
         </div>
-      </div>
+      </section>
       <p v-if="wishList.length === 0" class="text-3xl mt-20">
         위시가 없어요... 😅 다시 검색하세요...👀
       </p>
     </div>
-  </div>
+  </article>
 </template>
 
 <script setup>
-import { wishPlaceStore } from "@/store/wishPlace";
+import { PAGE_COUNT, wishPlaceStore } from "@/store/wishPlace";
 import WishComponent from "@/components/common/WishComponent.vue";
 import { ref, watchEffect } from "vue";
 
 const store = wishPlaceStore();
-store.updateWishPlace("all", 0, 9);
-
 const wishList = ref([]);
 const searchWish = ref("");
 const selectedPath = ref("all");
+
+store.updateWishPlace("all", 0, PAGE_COUNT);
+store.updateWishPlaceCount("all");
+
 const selectPath = () => {
-  store.updateWishPlace(selectedPath.value, 0, 9);
+  store.updateWishPlace(selectedPath.value, 0, PAGE_COUNT);
+  store.updateWishPlaceCount(selectedPath.value);
 };
 
 const searchWishSubmit = () => {
-  store.updateSearchWishPlace(searchWish.value, 0, 9);
+  store.updateSearchWishPlace(searchWish.value, 0, PAGE_COUNT);
 };
 
 watchEffect(() => {

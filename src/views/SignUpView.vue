@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="register">
+  <form @submit.prevent="register" class="w-full">
     <div>
       <label for="userId">사용자 아이디</label>
       <input

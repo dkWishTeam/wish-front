@@ -2,7 +2,7 @@
   <footer class="bg-gray-800 shadow">
     <div class="w-full text-xs max-w-screen-xl mx-auto p-4 md:py-8">
       <div class="flex">
-        <div class="flex w-1/2 flex-col">
+        <div class="flex w-1/2 flex-col min-w-max">
           <div class="sm:flex sm:items-center sm:justify-between">
             <div class="flex items-center mb-4 sm:mb-0">
               <img

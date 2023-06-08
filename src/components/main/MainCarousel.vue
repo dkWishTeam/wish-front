@@ -1,5 +1,5 @@
 <template>
-  <Carousel :autoplay="4000">
+  <Carousel :autoplay="4500">
     <slide v-for="slide in 3" :key="slide">
       <div class="carousel__item">
         <a v-bind:href="carousel[slide - 1].target">
@@ -31,7 +31,7 @@ const carousel = [
 
 <style>
 .carousel__item {
-  min-height: 350px;
+  min-height: 280px;
   width: 100%;
   color: white;
   font-size: 20px;
