@@ -9,6 +9,7 @@
         <ul class="space-y-2 font-medium">
           <li>
             <router-link
+              v-if="role === 'ROLE_ADMIN'"
               to="/memberManagement"
               class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
             >
@@ -55,14 +56,15 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    // 로직 및 계산
+<script setup>
+import { onMounted, ref } from "vue";
 
-    return {};
-  },
+const role = ref("");
+
+const getRole = () => {
+  role.value = localStorage.getItem("userRole");
 };
+onMounted(getRole);
 </script>
 
 <style scoped>

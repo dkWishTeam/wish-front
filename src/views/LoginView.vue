@@ -112,28 +112,26 @@ const loginMsg = ref("");
 
 const loginSubmit = async () => {
   const user = {
-    userId: userId.value,
+    username: userId.value,
     password: password.value,
   };
-
   const response = await getLoginUser(user);
-  // 로그인 성공 시 처리
-  if (response.includes("loginSuccess")) {
-    const userInfo = response.split(":");
-    localStorage.setItem("userId", userInfo[1]);
-    localStorage.setItem("userNickname", userInfo[2]);
-    localStorage.setItem("userRole", userInfo[3]);
-
-    if (rememberCheck.value === true) {
-      cookies.set("userIdCookie", user.userId, 60 * 60 * 24 * 3);
-      cookies.set("rememberId", true, 60 * 60 * 24 * 3);
-    } else {
-      cookies.remove("userIdCookie");
-      cookies.remove("rememberId");
-    }
-    window.location.href = "/";
-  } else {
-    loginMsg.value = response;
+  if (response.loginSuccess !== undefined) {
+    alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+    return;
   }
+  localStorage.setItem("jwt", response.token);
+  localStorage.setItem("id", response.id);
+  localStorage.setItem("userId", response.userId);
+  localStorage.setItem("nickname", response.nickname);
+  localStorage.setItem("userRole", response.role);
+  if (rememberCheck.value === true) {
+    cookies.set("userIdCookie", user.username, 60 * 60 * 24 * 3);
+    cookies.set("rememberId", true, 60 * 60 * 24 * 3);
+  } else {
+    cookies.remove("userIdCookie");
+    cookies.remove("rememberId");
+  }
+  window.location.href = "/";
 };
 </script>

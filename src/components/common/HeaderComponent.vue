@@ -41,30 +41,34 @@
         </div>
 
         <div class="flex items-end items-center lg:order-2">
-          <a
-            v-if="isLogin == null"
-            href="/signUp"
-            class="hidden md:flex text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-            >회원가입</a
-          >
-          <a
-            v-if="isLogin != null"
-            href="/myPage"
-            class="hidden md:flex text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-            >마이페이지</a
-          >
-          <a
-            v-if="isLogin == null"
-            href="/login"
-            class="hidden md:flex text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-            >로그인</a
-          >
-          <a
-            v-if="isLogin != null"
-            @click="logout"
-            class="hidden md:flex text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-1 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-            >로그아웃</a
-          >
+          <div v-if="token">
+            <a
+              v-if="isLogin != null"
+              href="/myPage"
+              class="hidden md:flex text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+              >마이페이지</a
+            >
+            <a
+              v-if="isLogin != null"
+              @click="logout"
+              class="hidden md:flex text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-1 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+              >로그아웃</a
+            >
+          </div>
+          <div v-else>
+            <a
+              v-if="isLogin == null"
+              href="/signUp"
+              class="hidden md:flex text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+              >회원가입</a
+            >
+            <a
+              v-if="isLogin == null"
+              href="/login"
+              class="hidden md:flex text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+              >로그인</a
+            >
+          </div>
           <div class="w-6 h-6 mx-8 lg:hidden">
             <button type="button" @click="sidebarHandler">
               <img src="/images/bar.png" alt="bar_menu" />
@@ -249,7 +253,12 @@
 
 <script setup>
 import { userLogout } from "@/services/requestHandler";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+
+const token = ref("");
+
+const getToken = () => {
+  token.value = localStorage.getItem("jwt");
 
 const isLogin = localStorage.getItem("userId");
 const sidebarOpen = ref(false);
@@ -263,9 +272,12 @@ const logout = async () => {
     const response = await userLogout();
     console.log(response);
     localStorage.clear();
+    token.value = null;
     window.location.href = "/";
   } catch (error) {
     console.log(error);
   }
 };
+
+onMounted(getToken);
 </script>

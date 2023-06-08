@@ -181,9 +181,17 @@ import {
   computed,
   onMounted,
 } from "vue";
-import axios from "axios";
+
 import UpdateUserSuccessPopUp from "@/components/UpdateUserSuccessPopUp";
 import SideBarComponent from "@/components/common/SideBarComponent";
+import {
+  checkEmail,
+  checkNickname,
+  checkPhone,
+  checkUserId,
+  getMyPage,
+  userUpdate,
+} from "@/services/requestHandler";
 
 export default defineComponent({
   components: {
@@ -240,18 +248,12 @@ export default defineComponent({
       function extractDate(user) {
         user.value.birth = user.value.birth.split("T")[0];
       }
-
-      try {
-        const response = await axios.get("http://localhost:8090/users/" + 1); // API 경로는 실제 서버에 맞게 변경해 주세요.
-        //todo 서버에서 받은 회원의 id 를 알아내서 path에 적기
-        user.value = response.data;
-        originUser.value = response.data;
-        extractDate(user);
-        extractDate(originUser);
-        console.log(user.value);
-      } catch (error) {
-        console.error("데이터 불러오기 에러:", error);
-      }
+      const response = await getMyPage(localStorage.getItem("id"));
+      //todo 서버에서 받은 회원의 id 를 알아내서 path에 적기
+      user.value = response;
+      originUser.value = JSON.parse(JSON.stringify(response));
+      extractDate(user);
+      extractDate(originUser);
     });
 
     onMounted(() => {
@@ -271,15 +273,15 @@ export default defineComponent({
         } else {
           try {
             if (newUserId === originUser.value.userId) {
+              console.log(newUserId);
+              console.log(originUser.value.userId);
               userIdMessage.value = "현재 아이디와 동일합니다.";
               userIdValidation.value = true;
               return;
             }
-            const response = await axios.get(
-              "http://localhost:8090/users/userid-duplicate-check?userId=" +
-                newUserId
-            );
-            if (response.data) {
+            const response = await checkUserId(newUserId);
+
+            if (response) {
               userIdMessage.value = "사용 가능한 ID 입니다.";
               userIdValidation.value = true;
             } else {
@@ -326,11 +328,8 @@ export default defineComponent({
               emailValidation.value = true;
               return;
             }
-            const response = await axios.get(
-              "http://localhost:8090/users/email-duplicate-check?email=" +
-                newEmail
-            );
-            if (response.data) {
+            const response = await checkEmail(newEmail);
+            if (response) {
               emailMessage.value = "사용 가능한 Email 입니다.";
               emailValidation.value = true;
             } else {
@@ -359,11 +358,8 @@ export default defineComponent({
               nicknameValidation.value = true;
               return;
             }
-            const response = await axios.get(
-              "http://localhost:8090/users/nickname-duplicate-check?nickname=" +
-                newNickname
-            );
-            if (response.data) {
+            const response = await checkNickname(newNickname);
+            if (response) {
               nicknameMessage.value = "사용 가능한 닉네임 입니다.";
               nicknameValidation.value = true;
             } else {
@@ -426,11 +422,8 @@ export default defineComponent({
               phoneValidation.value = true;
               return;
             }
-            const response = await axios.get(
-              "http://localhost:8090/users/phone-duplicate-check?phone=" +
-                newPhone
-            );
-            if (response.data) {
+            const response = await checkPhone(newPhone);
+            if (response) {
               phoneMessage.value = "사용 가능한 휴대폰 번호 입니다.";
               phoneValidation.value = true;
             } else {
@@ -444,22 +437,9 @@ export default defineComponent({
       });
     });
     const updateUser = async () => {
-      try {
-        console.log(user);
-        let response = await axios.put(
-          "http://localhost:8090/users/" + user.value.id,
-          user.value
-        );
-        console.log(response);
-        if (response.status === 200) {
-          showSuccessPopUp.value = true;
-        } else {
-          // 회원 가입 실패 시 처리할 로직 추가
-          console.error("회원 가입 실패");
-        }
-      } catch (error) {
-        console.error("회원 가입 에러:", error);
-      }
+      await userUpdate(user.value.id, user.value);
+
+      showSuccessPopUp.value = true;
     };
     const closeSuccessPopUp = () => {
       showSuccessPopUp.value = false;
