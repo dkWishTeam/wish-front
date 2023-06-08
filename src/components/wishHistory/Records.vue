@@ -2,15 +2,17 @@
   <!--  <p v-text="result.wishUserDto.nickname"></p>-->
   <!--위시 기록 테이블-->
   <!--  <th:block th:if="${wishUserDto.userId == session.id}">-->
-  <button
-    id="createButton"
-    class="float-right bg-blue-600 w-28 py-3 rounded-lg text-sm text-white cursor-pointer mt-5 mb-3 hover:bg-gradient-to-br from-purple-600 to-blue-500"
-    @click="openModal('register')"
-  >
-    위시기록하기
-  </button>
+  <div class="flex justify-end px-4">
+    <button
+      id="createButton"
+      class="bg-blue-600 w-28 py-3 rounded-lg text-sm text-white cursor-pointer mt-5 mb-3 hover:bg-gradient-to-br from-purple-600 to-blue-500"
+      @click="openModal('register')"
+    >
+      위시기록하기
+    </button>
+  </div>
   <table
-    class="clear-both w-full mt-2 border-t-2 border-b-2 border-gray-300"
+    class="clear-both w-full mt-2 border-t-2 border-b-2 border-gray-300 mb-8"
     v-if="result.wishHistoryList"
   >
     <tr class="w-full border-b border-gray-200">

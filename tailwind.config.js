@@ -9,12 +9,11 @@ module.exports = {
       colors: {
         primary: "#0061f2",
         primary_hover: "#0149c7",
-        articleColor: "#ecf4f8",
-        // articleColor: "#d7d7fa",
+        //articleColor: "#ecf4f8",
+        //articleColor: "#d7d7fa",
+        articleColor: "#ffffff",
+        primary_select: "#80aaff",
       },
-    },
-    screens: {
-      sm: "360px", // mobile 사이즈로 설정
     },
   },
   plugins: [],

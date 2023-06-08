@@ -1,7 +1,7 @@
 <template>
-  <section class="bg-gray-50 dark:bg-gray-900">
+  <main class="bg-gray-50">
     <div
-      class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+      class="flex flex-col items-center justify-center px-6 py-8 mx-auto min-w-max h-screen lg:py-0"
     >
       <h1
         class="flex items-center mb-6 text-5xl font-semibold text-gray-900 dark:text-white"
@@ -86,6 +86,7 @@
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
               계정이 없으신가요?
               <a
+                href="/signUp"
                 class="font-medium text-primary hover:underline dark:text-primary-500"
                 >회원가입</a
               >
@@ -94,7 +95,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </main>
 </template>
 
 <script setup>

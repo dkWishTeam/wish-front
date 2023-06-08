@@ -1,12 +1,12 @@
 <template>
-  <div class="w-72 bg-white shadow border border-gray-300">
+  <div class="bg-white">
     <div class="w-full">
       <router-link
         :to="{
           name: 'wishHistory',
           params: { wishId: props.wishId },
         }"
-        class="h-48 overflow-hidden block"
+        class="block"
       >
         <img
           class="w-full"

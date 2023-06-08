@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-wrapper">
+  <div class="sidebar-wrapper max-w-5xl">
     <SideBarComponent></SideBarComponent>
     <form @submit.prevent="updateUser">
       <div>

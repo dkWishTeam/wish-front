@@ -88,211 +88,218 @@ function goalDateErrorMsg(error, value) {
 }
 </script>
 <template>
-  <article class="my-16 text-center">
-    <h1
-      class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white"
-    >
-      위시 등록하기
-    </h1>
-    <p
-      class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400"
-    >
-      당신의 위시를 실현하는 첫걸음 이에요!
-    </p>
-  </article>
-
-  <section class="mx-auto max-w-screen-lg">
-    <form class="w-full" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="userId" />
-      <hr class="w-full my-6" />
-
-      <div class="w-full flex">
-        <div id="image-flex-container" class="w-1/2">
-          <div
-            id="image-container"
-            class="relative w-full h-0 pb-[100%] bg-white border border-gray-200 rounded-lg"
-          >
-            <img
-              class="absolute inset-0 w-full h-full object-scale-down rounded-lg"
-              id="upload-image-preview"
-              src="/images/default.png"
-            />
-          </div>
-        </div>
-        <div
-          id="wishContent-container"
-          class="w-1/2 flex-col justify-between flex-none overflow-hidden block"
+  <div class="w-full">
+    <div class="mx-auto">
+      <article class="p-20 my-16">
+        <h1
+          class="text-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white"
         >
-          <div
-            class="w-full my-8 items-center flex justify-end"
-            id="input-isPublic-container"
-          >
-            <input
-              type="checkbox"
-              class="drop-shadow-xl"
-              id="isPublicToggle"
-              hidden
-              name="isPublic"
-              @click="toggleChecked"
-              v-bind:value="isChecked"
-              checked
-            />
-            <label for="isPublicToggle" id="toggleSwitch">
-              <span id="toggleButton"></span>
-            </label>
-          </div>
-          <div class="w-full my-8 flex justify-between">
-            <label
-              for="wish-title"
-              class="w-2/12 ml-7 flex justify-start items-center text-lg text-gray-900"
-              >위시 제목</label
-            >
-            <div class="w-9/12">
-              <input
-                v-model="inputValue[0]"
-                @blur="inputValidator('title', inputValue[0])"
-                type="text"
-                placeholder="위시의 제목을 입력해주세요"
-                class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
-                id="wish-title"
-                name="title"
-                required
-              />
-              <p v-if="inputTitleErrorMsg" class="9/12 text-red-600">
-                {{ inputTitleErrorMsg }}
-              </p>
-            </div>
-          </div>
+          위시 등록하기
+        </h1>
+        <p
+          class="text-center mb-2 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400"
+        >
+          당신의 위시를 실현하는 첫걸음 이에요!
+        </p>
+      </article>
 
-          <div class="w-full my-8 flex justify-between">
-            <label
-              for="product-name"
-              class="w-2/12 ml-7 flex justify-start items-center text-lg font-medium text-gray-900"
-              >상품 이름</label
-            >
-            <div class="w-9/12">
-              <input
-                v-model="inputValue[1]"
-                @blur="inputValidator('productName', inputValue[1])"
-                type="text"
-                placeholder="상품 이름을 자유롭게 작성해 주세요."
-                class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
-                id="product-name"
-                name="productName"
-                required
-              />
-              <p v-if="inputProductNameErrorMsg" class="9/12 text-red-600">
-                {{ inputProductNameErrorMsg }}
-              </p>
-            </div>
-          </div>
+      <section class="max-w-6xl mx-auto">
+        <form class="w-full" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="userId" />
+          <hr class="w-full my-6" />
 
-          <div class="w-full my-8 flex justify-between">
-            <label
-              for="goal-amount"
-              class="w-2/12 ml-7 flex justify-start items-center text-lg font-medium text-gray-900"
-              >목표 금액</label
-            >
-            <div class="w-9/12">
-              <input
-                v-model="inputValue[2]"
-                @blur="inputValidator('goalAmount', inputValue[2])"
-                type="number"
-                placeholder="목표 금액을 입력해 주세요. ex) 2200000원"
-                class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
-                id="goal-amount"
-                name="goalAmount"
-                required
-              />
-              <p v-if="inputGoalAmountErrorMsg" class="9/12 text-red-600">
-                {{ inputGoalAmountErrorMsg }}
-              </p>
-            </div>
-          </div>
-
-          <div class="w-full my-8 flex justify-between">
-            <label
-              for="goal-date"
-              class="w-2/12 ml-7 flex justify-start items-center text-lg font-medium text-gray-900"
-              >목표 날짜</label
-            >
-            <div class="w-9/12">
-              <input
-                v-model="inputValue[3]"
-                @blur="inputValidator('goalDate', inputValue[3])"
-                type="date"
-                placeholder="년. 월. 일"
-                class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
-                id="goal-date"
-                name="goalDate"
-                required
-              />
-              <p v-if="inputGoalDateErrorMsg" class="9/12 text-red-600">
-                {{ inputGoalDateErrorMsg }}
-              </p>
-            </div>
-          </div>
-
-          <div class="w-full my-8 flex justify-between">
-            <label
-              for="image-input"
-              class="w-2/12 ml-7 flex justify-start items-center rounded-lg text-lg font-medium text-gray-900"
-              >이미지등록</label
-            >
-            <div class="w-9/12 flex justify-between">
-              <input
-                class="w-8/12 text-base text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-slate-200 focus:outline-none"
-                id="image-input"
-                type="file"
-                name="imageFile"
-                accept="image/jpeg, image/png"
-                :style="{ color: '#999999' }"
-              />
-              <button
-                onclick="deleteUploadImage()"
-                type="button"
-                class="w-3/12 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-2.5 mb-2focus:outline-none"
+          <div class="w-full flex">
+            <div id="image-flex-container" class="w-1/2">
+              <div
+                id="image-container"
+                class="relative w-full h-0 pb-[100%] bg-white border border-gray-200 rounded-lg"
               >
-                삭제
-              </button>
+                <img
+                  class="absolute inset-0 w-full h-full object-scale-down rounded-lg"
+                  id="upload-image-preview"
+                  src="/images/default.png"
+                />
+              </div>
+            </div>
+            <div
+              id="wishContent-container"
+              class="w-1/2 flex-col justify-between flex-none overflow-hidden block"
+            >
+              <div
+                class="w-full my-8 items-center flex justify-end"
+                id="input-isPublic-container"
+              >
+                <input
+                  type="checkbox"
+                  class="drop-shadow-xl"
+                  id="isPublicToggle"
+                  hidden
+                  name="isPublic"
+                  @click="toggleChecked"
+                  v-bind:value="isChecked"
+                  checked
+                />
+                <label for="isPublicToggle" id="toggleSwitch">
+                  <span id="toggleButton"></span>
+                </label>
+              </div>
+              <div class="w-full my-8 flex justify-between">
+                <label
+                  for="wish-title"
+                  class="w-2/12 ml-7 flex justify-start items-center text-lg text-gray-900"
+                  >위시 제목</label
+                >
+                <div class="w-9/12">
+                  <input
+                    v-model="inputValue[0]"
+                    @blur="inputValidator('title', inputValue[0])"
+                    type="text"
+                    placeholder="위시의 제목을 입력해주세요"
+                    class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                    id="wish-title"
+                    name="title"
+                    required
+                  />
+                  <p v-if="inputTitleErrorMsg" class="9/12 text-red-600">
+                    {{ inputTitleErrorMsg }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="w-full my-8 flex justify-between">
+                <label
+                  for="product-name"
+                  class="w-2/12 ml-7 flex justify-start items-center text-lg font-medium text-gray-900"
+                  >상품 이름</label
+                >
+                <div class="w-9/12">
+                  <input
+                    v-model="inputValue[1]"
+                    @blur="inputValidator('productName', inputValue[1])"
+                    type="text"
+                    placeholder="상품 이름을 자유롭게 작성해 주세요."
+                    class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                    id="product-name"
+                    name="productName"
+                    required
+                  />
+                  <p v-if="inputProductNameErrorMsg" class="9/12 text-red-600">
+                    {{ inputProductNameErrorMsg }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="w-full my-8 flex justify-between">
+                <label
+                  for="goal-amount"
+                  class="w-2/12 ml-7 flex justify-start items-center text-lg font-medium text-gray-900"
+                  >목표 금액</label
+                >
+                <div class="w-9/12">
+                  <input
+                    v-model="inputValue[2]"
+                    @blur="inputValidator('goalAmount', inputValue[2])"
+                    type="number"
+                    placeholder="목표 금액을 입력해 주세요. ex) 2200000원"
+                    class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                    id="goal-amount"
+                    name="goalAmount"
+                    required
+                  />
+                  <p v-if="inputGoalAmountErrorMsg" class="9/12 text-red-600">
+                    {{ inputGoalAmountErrorMsg }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="w-full my-8 flex justify-between">
+                <label
+                  for="goal-date"
+                  class="w-2/12 ml-7 flex justify-start items-center text-lg font-medium text-gray-900"
+                  >목표 날짜</label
+                >
+                <div class="w-9/12">
+                  <input
+                    v-model="inputValue[3]"
+                    @blur="inputValidator('goalDate', inputValue[3])"
+                    type="date"
+                    placeholder="년. 월. 일"
+                    class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                    id="goal-date"
+                    name="goalDate"
+                    required
+                  />
+                  <p v-if="inputGoalDateErrorMsg" class="9/12 text-red-600">
+                    {{ inputGoalDateErrorMsg }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="w-full my-8 flex justify-between">
+                <label
+                  for="image-input"
+                  class="w-2/12 ml-7 flex justify-start items-center rounded-lg text-lg font-medium text-gray-900"
+                  >이미지등록</label
+                >
+                <div class="w-9/12 flex justify-between">
+                  <input
+                    class="w-8/12 text-base text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-slate-200 focus:outline-none"
+                    id="image-input"
+                    type="file"
+                    name="imageFile"
+                    accept="image/jpeg, image/png"
+                    :style="{ color: '#999999' }"
+                  />
+                  <button
+                    onclick="deleteUploadImage()"
+                    type="button"
+                    class="w-3/12 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-2.5 mb-2focus:outline-none"
+                  >
+                    삭제
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="my-4">
-        <label
-          for="wish-content"
-          class="my-3 block text-lg font-medium text-gray-900"
-          >위시 내용</label
-        >
-        <textarea
-          placeholder="위시의 내용을 간략하게 작성해 주세요✏️"
-          class="bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-4 w-full h-52 resize-none"
-          id="wish-content"
-          name="content"
-        ></textarea>
-      </div>
+          <div class="my-4">
+            <label
+              for="wish-content"
+              class="my-3 block text-lg font-medium text-gray-900"
+              >위시 내용</label
+            >
+            <textarea
+              placeholder="위시의 내용을 간략하게 작성해 주세요✏️"
+              class="bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-4 w-full h-52 resize-none"
+              id="wish-content"
+              name="content"
+            ></textarea>
+          </div>
 
-      <div class="items-center justify-center flex my-20" id="button-container">
-        <button
-          type="submit"
-          class="mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-6 py-3.5 text-center"
-          id="submit-button"
-        >
-          등록하기
-        </button>
-        <button
-          type="reset"
-          class="text-white bg-slate-400 hover:bg-slate-500 focus:ring-4 focus:outline-none focus:ring-slate-500 font-medium rounded-lg text-base px-7 py-3.5 text-center"
-          id="reset-button"
-        >
-          돌아가기
-        </button>
-      </div>
-      <input type="hidden" name="completionStatus" value="false" />
-    </form>
-  </section>
+          <div
+            class="items-center justify-center flex my-20"
+            id="button-container"
+          >
+            <button
+              type="submit"
+              class="mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-6 py-3.5 text-center"
+              id="submit-button"
+            >
+              등록하기
+            </button>
+            <button
+              type="reset"
+              class="text-white bg-slate-400 hover:bg-slate-500 focus:ring-4 focus:outline-none focus:ring-slate-500 font-medium rounded-lg text-base px-7 py-3.5 text-center"
+              id="reset-button"
+            >
+              돌아가기
+            </button>
+          </div>
+          <input type="hidden" name="completionStatus" value="false" />
+        </form>
+      </section>
+    </div>
+  </div>
 </template>
 
 <style scoped>

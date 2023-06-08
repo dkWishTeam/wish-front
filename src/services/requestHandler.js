@@ -24,8 +24,16 @@ export const deleteWishHistory = (wishId, wishHistoryId) => {
   return instance.delete(uri);
 };
 
-export const getWishPlaceList = (path) => {
-  const uri = `/place/${path}`;
+export const getWishPlaceList = (path, start, size) => {
+  const uri = `/place/${path}?start=${start}&size=${size}`;
+  return instance.get(uri);
+};
+export const getSearchWishPlaceList = (search, start, size) => {
+  const uri = `/place?search=${search}&start=${start}&size=${size}`;
+  return instance.get(uri);
+};
+export const getWishPlaceListCount = (path) => {
+  const uri = `/place/${path}/count`;
   return instance.get(uri);
 };
 export const BASE_URL = "http://localhost:8090";
