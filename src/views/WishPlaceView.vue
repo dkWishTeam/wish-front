@@ -3,7 +3,9 @@
     <div class="max-w-5xl mx-auto">
       <section class="pt-16 min-w-full">
         <div class="flex justify-between my-8">
-          <h3 class="text-3xl pl-6 min-w-max">전체 Wish 🧞‍</h3>
+          <h3 class="text-3xl pl-6 min-w-max">
+            {{ titleArr[selectedPath] }} Wish 🧞‍
+          </h3>
           <form>
             <label
               for="search"
@@ -82,6 +84,29 @@
       <p v-if="wishList.length === 0" class="text-3xl mt-20">
         위시가 없어요... 😅 다시 검색하세요...👀
       </p>
+      <div v-if="wishList.length !== 0" class="justify-center text-center mb-4">
+        <button
+          @click="goToPrevPage"
+          class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700"
+        >
+          이전
+        </button>
+        <select
+          v-model="curPage"
+          @change="goToPage"
+          class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700focus:ring-blue-700 focus:text-blue-700"
+        >
+          <option v-for="page in pageList" :key="page" :value="page">
+            {{ page }}
+          </option>
+        </select>
+        <button
+          @click="goToNextPage"
+          class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700"
+        >
+          다음
+        </button>
+      </div>
     </div>
   </article>
 </template>
@@ -96,10 +121,27 @@ const wishList = ref([]);
 const searchWish = ref("");
 const selectedPath = ref("all");
 
-store.updateWishPlace("all", 0, PAGE_COUNT);
-store.updateWishPlaceCount("all");
+const curPage = ref(1);
+const pageList = ref([]);
+
+const titleArr = {
+  all: "전체",
+  completion: "성공",
+  ongoing: "진행중",
+  new: "최신",
+};
+
+// store.updateWishPlace("all", 0, PAGE_COUNT);
+// store.updateWishPlaceCount("all");
+
+const init = () => {
+  store.updateWishPlace("all", 0, PAGE_COUNT);
+  store.updateWishPlaceCount("all");
+};
 
 const selectPath = () => {
+  curPage.value = 1;
+  searchWish.value = "";
   store.updateWishPlace(selectedPath.value, 0, PAGE_COUNT);
   store.updateWishPlaceCount(selectedPath.value);
 };
@@ -108,7 +150,39 @@ const searchWishSubmit = () => {
   store.updateSearchWishPlace(searchWish.value, 0, PAGE_COUNT);
 };
 
+const goToPage = () => {
+  store.updateSearchWishPlace(searchWish.value, curPage.value - 1, PAGE_COUNT);
+};
+const goToPrevPage = () => {
+  if (curPage.value > 1) {
+    curPage.value--;
+    goToPage();
+  }
+};
+const goToNextPage = () => {
+  if (curPage.value < pageList.value.length) {
+    curPage.value++;
+    goToPage();
+  }
+};
+
 watchEffect(() => {
+  if (store.wishPlaceListCount % PAGE_COUNT === 0)
+    pageList.value = Array.from(
+      { length: store.wishPlaceListCount / PAGE_COUNT },
+      (_, index) => index + 1
+    );
+  else
+    pageList.value = Array.from(
+      { length: Math.trunc(store.wishPlaceListCount / PAGE_COUNT) + 1 },
+      (_, index) => index + 1
+    );
+
+  if (curPage.value > pageList.value.length) {
+    curPage.value = pageList.value.length;
+  }
   wishList.value = store.wishPlaceList;
 });
+
+init();
 </script>
