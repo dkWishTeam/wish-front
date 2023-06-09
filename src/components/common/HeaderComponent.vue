@@ -20,15 +20,12 @@
             class="flex flex-col mt-4font-medium lg:flex-row lg:space-x-8 lg:mt-0"
           >
             <li>
-              <router-link
-                :to="{
-                  name: 'UserWishMainView',
-                  params: { id: 1 },
-                }"
+              <a
+                @click="generateUserWishLink"
                 class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 lg:border-0 hover:text-primary lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
               >
                 마이 위시
-              </router-link>
+              </a>
             </li>
             <li>
               <a
@@ -116,11 +113,8 @@
     <div class="py-4 overflow-y-auto">
       <ul class="space-y-2 font-medium">
         <li>
-          <router-link
-            :to="{
-              name: 'UserWishMainView',
-              params: { id: 1 },
-            }"
+          <a
+            @click="generateUserWishLink"
             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <svg
@@ -134,7 +128,7 @@
               <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
             </svg>
             <span class="ml-3">마이 위시</span>
-          </router-link>
+          </a>
         </li>
 
         <li>
@@ -251,6 +245,7 @@
 <script setup>
 import { userLogout } from "@/services/requestHandler";
 import { onMounted, ref } from "vue";
+import router from "@/router";
 
 const token = ref("");
 
@@ -260,6 +255,22 @@ const getToken = () => {
 
 const isLogin = localStorage.getItem("userId");
 const sidebarOpen = ref(false);
+
+const id = ref(localStorage.getItem("id"));
+
+function generateUserWishLink() {
+  if (id.value !== null) {
+    router.push({
+      name: "UserWishMainView",
+      params: { id: id.value },
+    });
+  } else {
+    alert("로그인을 해주세요.");
+    router.push({
+      name: "login",
+    });
+  }
+}
 
 const sidebarHandler = () => {
   sidebarOpen.value = !sidebarOpen.value;
