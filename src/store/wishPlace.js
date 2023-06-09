@@ -6,7 +6,7 @@ import {
   getWishPlaceListCount,
 } from "@/services/requestHandler";
 
-export const PAGE_COUNT = 9;
+export const PAGE_COUNT = 3;
 
 export const wishPlaceStore = defineStore("wishPlace", () => {
   const wishPlaceList = ref([]);
