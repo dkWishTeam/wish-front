@@ -32,16 +32,14 @@
 <script setup>
 import UserWishComponent from "@/components/common/UserWishComponent.vue";
 import { ref } from "vue";
-import mixins from "@/components/mixin/mixins";
-import { url } from "@/services/uri.config";
+import { getUserWishes } from "@/services/requestHandler";
 
 const wishList = ref({});
 
 const getData = async () => {
-  // wishList.value = await mixins.methods.$api(url.wishes, "get");
-  return await mixins.methods.$api(url.getUserWishes(1), "get");
+  return await getUserWishes(localStorage.getItem("id"));
 };
-getData().then((res) => console.log((wishList.value = res)));
-console.log(wishList.value);
-// export { wishList, getData };
+getData().then((res) => {
+  wishList.value = res;
+});
 </script>
