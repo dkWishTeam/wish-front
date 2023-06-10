@@ -34,6 +34,7 @@
                   class="absolute inset-0 w-full h-full object-scale-down rounded-lg"
                   id="upload-image-preview"
                   :src="imagePreview"
+                  alt="imagePreview"
                 />
               </div>
             </div>
@@ -222,9 +223,9 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
 import defaultImage from "@/images/default.png";
-import { url } from "@/services/uri.config";
+import { createWish } from "@/services/requestHandler";
+import router from "@/router";
 
 //[0] = id
 //[1] = isPublic
@@ -261,7 +262,7 @@ const deleteImage = (event) => {
 };
 
 // 시큐리티 기능 구현전 id 넣어주기
-inputValue.value[0] = 1000;
+// inputValue.value[0] = localStorage.getItem("id");
 
 const submitForm = async (event) => {
   event.preventDefault();
@@ -283,17 +284,26 @@ const submitForm = async (event) => {
   const blob = new Blob([json], { type: "application/json" });
   formData.append("wishRequestDto", blob);
   console.log(formData);
+  const createdId = ref();
   try {
-    return axios.post("http://localhost:8090/users/1/wishes", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        charset: "utf-8",
-      },
-    });
+    // return axios.post("http://localhost:8090/users/1/wishes", formData, {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //     charset: "utf-8",
+    //   },
+    // });
+    createdId.value = await createWish(localStorage.getItem("id"), formData);
+    console.log("createdId : " + createdId.value);
   } catch (error) {
     console.log(error);
   }
-  this.$router.push();
+
+  await router.push({
+    name: "wishHistory",
+    params: {
+      wishId: createdId.value,
+    },
+  });
 };
 
 // error 메세지 생성 로직
