@@ -11,9 +11,10 @@
       위시기록하기
     </button>
   </div>
+
   <table
     class="clear-both w-full mt-2 border-t-2 border-b-2 border-gray-300 mb-8"
-    v-if="result.pageResponseHistoryListDto?.wishHistoryList"
+    v-if="pageInfo?.wishHistoryList"
   >
     <tr class="w-full border-b border-gray-200">
       <th
@@ -38,16 +39,17 @@
       </th>
     </tr>
     <tr
-      v-for="(wishHistoryResponseDto, index) in result
-        .pageResponseHistoryListDto?.wishHistoryList"
+      v-for="(wishHistoryResponseDto, index) in pageInfo?.wishHistoryList"
       :key="index"
       class="wishHistoryList w-full border-b border-gray-200"
     >
       <td
         class="px-5 py-3 text-sm font-normal text-gray-800 border-b border-gray-200 wishListCount"
       >
-        <!--          삭제할때 wishListCount수정하는 js쿼리 짜야함-->
-        {{ index + 1 }}회차
+        <span v-if="pagingUtil?.pageNumber === 1"> {{ index + 1 }}회차 </span>
+        <span v-else>
+          {{ (pagingUtil?.pageNumber - 1) * 10 + index + 1 }}회차
+        </span>
       </td>
       <td class="historyDatetime px-5 py-3 text-sm font-normal text-gray-800">
         {{ wishHistoryResponseDto.historyDatetime.split("T")[0] }}
@@ -86,56 +88,71 @@
       </td>
     </tr>
   </table>
+  <p v-else>{{ pageInfo.msg }}</p>
+
+  <div v-if="pagingUtil.totalElements != 0">
+    <div class="flex justify-center mb-32 mt-2.5">
+      <button
+        @click="goToPrevPage(pagingUtil?.pageNumber)"
+        class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100"
+      >
+        이전
+      </button>
+      <span v-for="(n, index) in pagingUtil?.totalPages" :key="index">
+        <span
+          v-if="pagingUtil?.pageNumber == n"
+          class="relative block rounded px-3 py-1.5 text-sm text-blue-600 font-bold transition-all duration-300 cursor-pointer bg-blue-50 hover:bg-blue-100 hover:text-blue-700"
+          >{{ n }}</span
+        >
+        <span
+          v-else
+          class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 cursor-pointer"
+          @click="setPage(n)"
+          >{{ n }}</span
+        >
+      </span>
+      <button
+        class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100"
+        @click="
+          goToNextPage(pagingUtil?.totalPages, pagingUtil?.pageNumber + 1)
+        "
+      >
+        다음
+      </button>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { wishHistoryInfoStore } from "@/store/wishHistoryInfo";
-import { defineProps, onMounted } from "vue";
+import { defineProps } from "vue";
 import { modalStore } from "@/store/modal";
 import { deleteWishHistory } from "@/services/requestHandler";
 import { storeToRefs } from "pinia";
-import Pagination from "@/components/common/Pagination.vue";
-// import { deleteWishHistory } from "@/services/requestHandler";
 const props = defineProps({
   wishId: { type: Number, default: 12 },
 });
 
-// const pageData = reactive({
-//   wishHistoryList: {},
-// });
-// const pageData = ref({});
-
 const store = wishHistoryInfoStore();
-const { result } = storeToRefs(store);
-// const historyList = ref([]);
+const { pageInfo, pagingUtil } = storeToRefs(store);
 
-// store.$subscribe(() => {
-//   const storeResult = store.result;
-//   result.wishHistoryList = storeResult.wishHistoryList;
-// });
+const setPage = (n) => {
+  console.log(n);
+  // pagingUtil.value.pageNumber = n;
+  store.getPage(props.wishId, n);
+};
+// console.log(result.pageResponseHistoryListDto?.pagingUtil.totalElements);
 
-// onMounted(() => {
-//   store.fetchData(props.wishId);
-//   // historyList.value = result.pageResponseHistoryListDto;
-//   console.log("리절트 결과" + result.value);
-// });
-
-// const init = async () => {
-//   console.log("asdfasdfsdaf");
-//
-//   await store.fetchData(props.wishId);
-//   console.log("result: ", store.result);
-//   pageData.value = store.result;
-//   console.log("page data: ", pageData.value);
-//   // let data = pageData.value;
-//   // console.log(data.title);
-//   // console.log("왜 안돼: " + pageData.value);
-//   // console.log("result:룰루랄라 ", storeResult.value);
-//   // result.wishHistoryList = storeResult.wishHistoryList;
-//   // title.value = result.title;
-// };
-
-// init();
+const goToPrevPage = (n) => {
+  if (n > 1) {
+    store.getPage(props.wishId, n - 1);
+  }
+};
+const goToNextPage = (page, n) => {
+  if (n <= page) {
+    store.getPage(props.wishId, n);
+  }
+};
 
 const modal = modalStore();
 const openModal = (buttonMode, id) => {

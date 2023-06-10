@@ -6,6 +6,16 @@ export const wishHistoryInfo = (data) => {
   return instance.get(uri);
 };
 
+export const findPagedWishHistory = (data, size) => {
+  const uri = `/wishes/${data}/wishHistories/page`;
+  console.log(data, size);
+  let requestBody = {
+    page: size,
+    pageSize: 10,
+  };
+  return instance.get(uri, { params: requestBody });
+};
+
 /* wishHistory 기록하기 (POST) */
 export const wishHistoryRegister = (registerData) => {
   const uri = `/wishes/${registerData.wishId}/wishHistories`;
