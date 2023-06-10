@@ -113,9 +113,9 @@
   <!--      </nav>-->
   <!--    </div>-->
   <!--  </div>-->
-  <!--  &lt;!&ndash;  <button type="" @click="show">버튼</button>&ndash;&gt;-->
-  {{ result.pageResponseHistoryListDto?.pagingUtil }}
-  {{ result.pageResponseHistoryListDto?.pagingUtil.pageNumber }}
+  <!--  &lt;!&ndash;  <button type="" @clic="show">버튼</button>&ndash;&gt;-->
+  <!--  {{ result.pageResponseHistoryListDto?.pagingUtil }}-->
+  <!--  {{ result.pageResponseHistoryListDto?.pagingUtil.pageNumber }}-->
   <!--  {{ result.pageResponseHistoryListDto?.pagingUtil }}-->
   <!--  {{ page.value }}-->
 
@@ -135,34 +135,12 @@ import { storeToRefs } from "pinia";
 
 const store = wishHistoryInfoStore();
 const { result } = storeToRefs(store);
-
-console.log("why?????????????????????????");
-// const page = ref({});
-console.log("왜 안찍히냐" + result.pageResponseHistoryListDto?.pageNumber);
-// const page = ref({});
-onMounted(() => {
-  // page.value = result.pageResponseHistoryListDto;
-  // info.value = store.result?.pageResponseHistoryListDto;
-  // page.value = info.value.pagingUtil;
-  // console.log("gg");
-  // page.value = result.pageResponseHistoryListDto;
-});
-
-// const emit = defineEmits(["changePage"]);
 //
-// //page인자를 받아 이벤트 changePage 이벤트 발생
-// const clickPage = (page) => {
-//   emit("changePage", page);
-// };
-//
-// const clickPrePageGroup = () => {
-//   emit("changePage", result.pagingUtil.pageNumber - 1);
-//   emit("changePage", result.pageResponseHistoryListDto?.pageNumber - 1);
-// };
-//
-// const clickNextPageGroup = () => {
-//   emit("changePage", props.pagingUtil.pageNumber + 1);
-// };
+// console.log("why?????????????????????????");
+// // const page = ref({});
+// console.log("왜 안찍히냐" + result.pageResponseHistoryListDto?.pageNumber);
+// // const page = ref({});
+// onMounted(() => {});
 </script>
 
 <style scoped></style>

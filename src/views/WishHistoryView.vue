@@ -7,11 +7,10 @@
         : ''
     "
   >
-    <WishInfo :wishId="routeWishId" :init="init"></WishInfo>
+    <WishInfo :wishId="routeWishId" :init="init" class="mt-12"></WishInfo>
     <Progress :wishId="routeWishId" @update-percent="handlePercent" />
     <Records :wishId="routeWishId"></Records>
     <ModalComponent :wishId="routeWishId"></ModalComponent>
-    <Pagination @changePage="changePage" />
 
     <!--    <Pagination :pagingUtil="result.pageResponseHistoryListDto?.pagingUtil"/>-->
   </div>
@@ -23,7 +22,6 @@ import Records from "@/components/wishHistory/Records.vue";
 import WishInfo from "@/components/wishHistory/WishInfo.vue";
 import Progress from "@/components/wishHistory/Progress.vue";
 import ModalComponent from "@/components/common/ModalComponent.vue";
-import Pagination from "@/components/common/Pagination.vue";
 import { useRoute } from "vue-router";
 import { onBeforeMount, ref } from "vue";
 import { wishHistoryInfoStore } from "@/store/wishHistoryInfo";
@@ -48,11 +46,6 @@ store.$subscribe(() => {
   const storeResult = store.result;
   result.wishHistoryList = storeResult.wishHistoryList;
 });
-
-const changePage = async (page) => {
-  console.log(`changePage ${page}`);
-  // const requestParam = {page}
-};
 </script>
 
 <style scoped></style>

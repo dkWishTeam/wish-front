@@ -130,7 +130,7 @@ const titleArr = {
   ongoing: "진행중",
   new: "최신",
 };
-
+console.log("으아아아ㅏ아");
 // store.updateWishPlace("all", 0, PAGE_COUNT);
 // store.updateWishPlaceCount("all");
 
