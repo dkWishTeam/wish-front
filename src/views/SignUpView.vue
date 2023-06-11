@@ -20,7 +20,7 @@
             ? { color: userIdValidation ? 'green' : 'red' }
             : ''
         "
-        >{{ idMessage }}</text
+        >{{ userIdMessage }}</text
       >
     </div>
     <div>
@@ -172,9 +172,15 @@
 
 <script>
 import { defineComponent, ref, watch } from "vue";
-import axios from "axios";
 import { navigateToHome, navigateToLogin } from "@/router";
 import SignUpSuccessPopUp from "@/components/SignUpSuccessPopUp";
+import {
+  checkEmail,
+  checkNickname,
+  checkPhone,
+  checkUserId,
+  userSignUp,
+} from "@/services/requestHandler";
 
 export default defineComponent({
   components: {
@@ -183,7 +189,7 @@ export default defineComponent({
   setup() {
     const userIdValidation = ref(null);
     const userId = ref("");
-    const idMessage = ref("");
+    const userIdMessage = ref("");
     const passwordValidation = ref(null);
     const password = ref("");
     const passwordMessage = ref("");
@@ -207,25 +213,23 @@ export default defineComponent({
 
     watch(userId, async (newUserId) => {
       if (newUserId.trim() === "") {
-        idMessage.value = "아이디를 입력해주세요.";
+        userIdMessage.value = "아이디를 입력해주세요.";
         userIdValidation.value = false;
       } else if (newUserId.length < 4 || newUserId.length > 20) {
-        idMessage.value = "아이디는 4자 이상 20자 이하여야합니다.";
+        userIdMessage.value = "아이디는 4자 이상 20자 이하여야합니다.";
         userIdValidation.value = false;
       } else if (!/^[a-zA-Z0-9]+$/.test(newUserId)) {
-        idMessage.value = "아이디는 영문자와 숫자만 사용할 수 있습니다.";
+        userIdMessage.value = "아이디는 영문자와 숫자만 사용할 수 있습니다.";
         userIdValidation.value = false;
       } else {
         try {
-          const response = await axios.get(
-            "http://localhost:8090/users/userid-duplicate-check?userId=" +
-              newUserId
-          );
-          if (response.data) {
-            idMessage.value = "사용 가능한 ID 입니다.";
+          const response = await checkUserId(newUserId);
+
+          if (response) {
+            userIdMessage.value = "사용 가능한 ID 입니다.";
             userIdValidation.value = true;
           } else {
-            idMessage.value = "이미 사용 중인 ID입니다.";
+            userIdMessage.value = "이미 사용 중인 ID입니다.";
             userIdValidation.value = false;
           }
         } catch (error) {
@@ -257,11 +261,8 @@ export default defineComponent({
         emailValidation.value = false;
       } else {
         try {
-          const response = await axios.get(
-            "http://localhost:8090/users/email-duplicate-check?email=" +
-              newEmail
-          );
-          if (response.data) {
+          const response = await checkEmail(newEmail);
+          if (response) {
             emailMessage.value = "사용 가능한 Email 입니다.";
             emailValidation.value = true;
           } else {
@@ -282,11 +283,8 @@ export default defineComponent({
         nicknameValidation.value = false;
       } else {
         try {
-          const response = await axios.get(
-            "http://localhost:8090/users/nickname-duplicate-check?nickname=" +
-              newNickname
-          );
-          if (response.data) {
+          const response = await checkNickname(newNickname);
+          if (response) {
             nicknameMessage.value = "사용 가능한 닉네임 입니다.";
             nicknameValidation.value = true;
           } else {
@@ -335,11 +333,8 @@ export default defineComponent({
         phoneValidation.value = false;
       } else {
         try {
-          const response = await axios.get(
-            "http://localhost:8090/users/phone-duplicate-check?phone=" +
-              newPhone
-          );
-          if (response.data) {
+          const response = await checkPhone(newPhone);
+          if (response) {
             phoneMessage.value = "사용 가능한 휴대폰 번호 입니다.";
             phoneValidation.value = true;
           } else {
@@ -352,32 +347,17 @@ export default defineComponent({
       }
     });
     const register = async () => {
-      try {
-        const userData = {
-          userId: userId.value,
-          password: password.value,
-          email: email.value,
-          name: name.value,
-          birth: birth.value,
-          phone: phone.value,
-          nickname: nickname.value,
-        };
-        let response = await axios.post(
-          "http://localhost:8090/users",
-          userData
-        );
-        console.log(response);
-        if (response.status === 201) {
-          // 회원 가입 완료 후 처리할 로직 추가
-          // 홈페이지로 이동
-          showSuccessPopUp.value = true;
-        } else {
-          // 회원 가입 실패 시 처리할 로직 추가
-          console.error("회원 가입 실패");
-        }
-      } catch (error) {
-        console.error("회원 가입 에러:", error);
-      }
+      const user = {
+        userId: userId.value,
+        password: password.value,
+        email: email.value,
+        name: name.value,
+        birth: birth.value,
+        phone: phone.value,
+        nickname: nickname.value,
+      };
+      await userSignUp(user);
+      showSuccessPopUp.value = true;
     };
     const closeSuccessPopUp = () => {
       showSuccessPopUp.value = false;
@@ -395,7 +375,7 @@ export default defineComponent({
       birth,
       phone,
       nickname,
-      idMessage,
+      userIdMessage,
       passwordMessage,
       emailMessage,
       nicknameMessage,
