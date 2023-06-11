@@ -84,7 +84,10 @@
       <p v-if="wishList.length === 0" class="text-3xl mt-20">
         위시가 없어요... 😅 다시 검색하세요...👀
       </p>
-      <div v-if="wishList.length !== 0" class="justify-center text-center mb-4">
+      <div
+        v-if="wishList.length !== 0"
+        class="justify-center text-center mt-4 mb-4"
+      >
         <button
           @click="goToPrevPage"
           class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700"

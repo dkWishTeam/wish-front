@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <div class="text-center mb-12">
+      <div class="text-center mt-12 mb-12">
         <a
           href="/WishPlace"
           class="text-white mt-8 mb-20 bg-primary hover:bg-primary_hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"

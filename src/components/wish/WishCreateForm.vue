@@ -271,8 +271,8 @@ const submitForm = async (event) => {
   formData.append("imageFile", file.value);
   const json = JSON.stringify({
     id: inputValue.value[0],
-    userId: 1,
-    isPublic: inputValue.value[1],
+    userId: localStorage.getItem("id"),
+    publicStatus: inputValue.value[1],
     title: inputValue.value[2],
     productName: inputValue.value[3],
     goalAmount: inputValue.value[4],
