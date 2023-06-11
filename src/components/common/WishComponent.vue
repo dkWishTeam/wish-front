@@ -8,11 +8,7 @@
         }"
         class="block"
       >
-        <img
-          class="w-full"
-          src="../../../public/images/default.png"
-          alt="default"
-        />
+        <img class="w-full h-full object-cover" :src="imgSrc" alt="default" />
       </router-link>
     </div>
     <div class="px-1.5">

@@ -77,7 +77,7 @@
   </header>
   <aside
     :class="sidebarOpen ? 'block' : 'hidden'"
-    class="fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto bg-gray-300 transition-transform"
+    class="fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto bg-gray-300"
   >
     <div class="mt-16 item-center">
       <span
