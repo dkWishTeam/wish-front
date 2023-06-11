@@ -16,7 +16,7 @@
           :userId="wish.userId"
           :title="wish.title"
           :content="wish.content"
-          :imgage="wish.image"
+          :image="wish.image"
           :productName="wish.productName"
           :goalAmount="wish.goalAmount"
           :isPublic="wish.isPublic"
