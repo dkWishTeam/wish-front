@@ -85,6 +85,11 @@ export const getUsersByAdmin = () => {
   return instance.get(uri);
 };
 
+export const userSignUp = (user) => {
+  const uri = `/users`;
+  return instance.post(uri, user);
+};
+
 export const userUpdate = (id, user) => {
   const uri = `/users/${id}`;
   return instance.put(uri, user);
