@@ -273,8 +273,6 @@ export default defineComponent({
         } else {
           try {
             if (newUserId === originUser.value.userId) {
-              console.log(newUserId);
-              console.log(originUser.value.userId);
               userIdMessage.value = "현재 아이디와 동일합니다.";
               userIdValidation.value = true;
               return;
