@@ -19,7 +19,7 @@
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 const carousel = [
-  { imgSrc: "/images/carousel1.png", target: "/WishCreate" },
+  { imgSrc: "/images/carousel1.png", target: "/wishCreate" },
   { imgSrc: "/images/carousel2.png", target: "/wishPlace" },
   { imgSrc: "/images/carousel3.png", target: "/wishes/129/wishHistories" },
 ];
