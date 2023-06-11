@@ -48,7 +48,7 @@
               >
                 <input
                   type="checkbox"
-                  v-model="inputValue[1]"
+                  v-model="inputValue[2]"
                   class="drop-shadow-xl"
                   id="isPublicToggle"
                   hidden
@@ -68,8 +68,8 @@
                 >
                 <div class="w-9/12">
                   <input
-                    v-model="inputValue[2]"
-                    @blur="inputValidator('title', inputValue[2])"
+                    v-model="inputValue[3]"
+                    @blur="inputValidator('title', inputValue[3])"
                     type="text"
                     placeholder="위시의 제목을 입력해주세요"
                     class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
@@ -91,8 +91,8 @@
                 >
                 <div class="w-9/12">
                   <input
-                    v-model="inputValue[3]"
-                    @blur="inputValidator('productName', inputValue[3])"
+                    v-model="inputValue[4]"
+                    @blur="inputValidator('productName', inputValue[4])"
                     type="text"
                     placeholder="상품 이름을 자유롭게 작성해 주세요."
                     class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
@@ -114,8 +114,8 @@
                 >
                 <div class="w-9/12">
                   <input
-                    v-model="inputValue[4]"
-                    @blur="inputValidator('goalAmount', inputValue[4])"
+                    v-model="inputValue[5]"
+                    @blur="inputValidator('goalAmount', inputValue[5])"
                     type="number"
                     placeholder="목표 금액을 입력해 주세요. ex) 2200000원"
                     class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
@@ -137,8 +137,8 @@
                 >
                 <div class="w-9/12">
                   <input
-                    v-model="inputValue[5]"
-                    @blur="inputValidator('goalDate', inputValue[5])"
+                    v-model="inputValue[6]"
+                    @blur="inputValidator('goalDate', inputValue[6])"
                     type="date"
                     placeholder="년. 월. 일"
                     class="w-full bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
@@ -192,7 +192,7 @@
               class="bg-slate-200 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 p-4 w-full h-52 resize-none"
               id="wish-content"
               name="content"
-              v-model="inputValue[6]"
+              v-model="inputValue[7]"
             ></textarea>
           </div>
 
@@ -228,41 +228,54 @@ import { createWish } from "@/services/requestHandler";
 import router from "@/router";
 
 //[0] = id
-//[1] = isPublic
-//[2] = title
-//[3] = productName
-//[4] = goalAmount
-//[5] = goalDate
-//[6] = content
-//[7] = completionStatus
-//[8] = image
-const inputValue = ref(["", true, "", "", "", "", "", false]);
+//[1] = userId
+//[2] = isPublic
+//[3] = title
+//[4] = productName
+//[5] = goalAmount
+//[6] = goalDate
+//[7] = content
+//[8] = completionStatus
+//[9] = image
+const inputValue = ref([
+  0,
+  localStorage.getItem("id"),
+  true,
+  "",
+  "",
+  "",
+  "",
+  "",
+  false,
+  "",
+]);
 const file = ref({});
 
 const toggleChecked = () => {
-  inputValue.value[1] = !inputValue.value[1];
+  inputValue.value[2] = !inputValue.value[2];
+  if (inputValue.value[2] === 1) {
+    inputValue.value[2] = 0;
+  } else if (inputValue.value[1] === 0) {
+    inputValue.value[2] = 1;
+  }
+  console.log(inputValue.value[2]);
 };
 
 const imagePreview = ref(defaultImage);
 const uploadImage = (event) => {
   file.value = event.target.files[0];
-  console.log(file.value);
-
   let uploadedImage = event.target;
   let reader = new FileReader();
   reader.onload = (e) => {
     imagePreview.value = e.target.result;
   };
   reader.readAsDataURL(uploadedImage.files[0]);
-  inputValue.value[8] = file.value;
+  inputValue.value[9] = file.value;
 };
 
 const deleteImage = (event) => {
-  inputValue.value[8] = {};
+  inputValue.value[9] = null;
 };
-
-// 시큐리티 기능 구현전 id 넣어주기
-// inputValue.value[0] = localStorage.getItem("id");
 
 const submitForm = async (event) => {
   event.preventDefault();
@@ -271,33 +284,29 @@ const submitForm = async (event) => {
   formData.append("imageFile", file.value);
   const json = JSON.stringify({
     id: inputValue.value[0],
-    userId: localStorage.getItem("id"),
-    publicStatus: inputValue.value[1],
-    title: inputValue.value[2],
-    productName: inputValue.value[3],
-    goalAmount: inputValue.value[4],
-    goalDate: inputValue.value[5],
-    content: inputValue.value[6],
-    completionStatus: inputValue.value[7],
+    userId: inputValue.value[1],
+    isPublic: inputValue.value[2],
+    title: inputValue.value[3],
+    productName: inputValue.value[4],
+    goalAmount: inputValue.value[5],
+    goalDate: inputValue.value[6],
+    content: inputValue.value[7],
+    completionStatus: inputValue.value[8],
     // image: "",
   });
+  console.log(json);
   const blob = new Blob([json], { type: "application/json" });
   formData.append("wishRequestDto", blob);
-  console.log(formData);
   const createdId = ref();
+
+  console.log("createdId  11 : " + createdId.value);
+  console.log("empty image : " + file.value.name);
   try {
-    // return axios.post("http://localhost:8090/users/1/wishes", formData, {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //     charset: "utf-8",
-    //   },
-    // });
     createdId.value = await createWish(localStorage.getItem("id"), formData);
-    console.log("createdId : " + createdId.value);
   } catch (error) {
     console.log(error);
   }
-
+  console.log("createdId 22 : " + createdId.value);
   await router.push({
     name: "wishHistory",
     params: {

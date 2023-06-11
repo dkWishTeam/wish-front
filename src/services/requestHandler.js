@@ -139,3 +139,23 @@ export const createWish = (id, data) => {
     },
   });
 };
+
+export const updateWishForm = (id, wishId) => {
+  const uri = `/users/${id}/wishes/${wishId}/updateForm`;
+  return instance.get(uri);
+};
+
+export const updateWish = (id, wishId, data) => {
+  const uri = `/users/${id}/wishes/${wishId}`;
+  return instance.put(uri, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      charset: "utf-8",
+    },
+  });
+};
+
+export const deleteWish = (id, wishId) => {
+  const uri = `/users/${id}/wishes/${wishId}`;
+  return instance.delete(uri);
+};
