@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col mx-auto max-w-screen-lg"
+    class="flex flex-col mx-auto max-w-screen-lg flex-grow"
     :style="
       updatePercent >= 100
         ? `background-image: url('/images/celebration3.gif');`
