@@ -29,6 +29,7 @@
 
 <script setup>
 import { wishHistoryInfoStore } from "@/store/wishHistoryInfo";
+import { getWishStore } from "@/store/wishStore";
 import { defineProps } from "vue";
 import { storeToRefs } from "pinia";
 import router from "@/router";
@@ -41,10 +42,13 @@ const props = defineProps({
   wishId: { type: Number, default: 12 },
 });
 
+const wishStore = getWishStore();
+
 function updateWish() {
+  wishStore.prevData = wishStore.getUserWishData(props.wishId);
+  wishStore.$id = 1;
   router.push({
     name: "wishUpdate",
-    params: {},
   });
 }
 
