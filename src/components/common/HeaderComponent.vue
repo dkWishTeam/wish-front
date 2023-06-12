@@ -1,13 +1,13 @@
 <template>
-  <header class="w-full fixed z-50 border-b-2 min-w-max">
-    <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
+  <header class="w-full fixed z-10 min-w-max">
+    <nav class="bg-white p-6">
       <div
         class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl"
       >
         <a href="/" class="flex items-center flex-shrink-0">
           <img
             src="/images/wishLogo-color.png"
-            class="mr-3 h-6 sm:h-9"
+            class="mr-3 h-6 sm:h-9 w-5/6"
             alt="wish Logo"
           />
         </a>
@@ -22,7 +22,7 @@
             <li>
               <a
                 @click="generateUserWishLink"
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 lg:border-0 hover:text-primary lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer"
+                class="block py-2 pr-4 pl-3 text-gray-700 lg:border-0 hover:text-primary lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
               >
                 마이 위시
               </a>
@@ -79,7 +79,7 @@
     :class="sidebarOpen ? 'block' : 'hidden'"
     class="fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto bg-gray-300"
   >
-    <div class="mt-16 item-center">
+    <div class="mt-8 item-center">
       <span
         id="drawer-navigation-label"
         class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"

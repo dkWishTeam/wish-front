@@ -1,5 +1,5 @@
 <template>
-  <div id="wishBox" class="px-4 pt-12">
+  <div id="wishBox" class="w-full px-4 pt-12">
     <div id="wishTitleBox">
       <p id="wishTitle" class="mt-4 text-lg text-gray-500">
         <span>{{ result.wishUserDto?.nickname }}님의</span>
