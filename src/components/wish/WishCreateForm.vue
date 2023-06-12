@@ -285,7 +285,7 @@ const submitForm = async (event) => {
   const json = JSON.stringify({
     id: inputValue.value[0],
     userId: inputValue.value[1],
-    isPublic: inputValue.value[2],
+    publicStatus: inputValue.value[2],
     title: inputValue.value[3],
     productName: inputValue.value[4],
     goalAmount: inputValue.value[5],
