@@ -1,7 +1,7 @@
 <template>
   <div class="w-1/3 p-6">
     <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
-      <div class="rounded-lg w-full">
+      <div class="rounded-lg w-full h-64">
         <router-link
           :to="{
             name: 'wishHistory',
@@ -10,7 +10,7 @@
           class="relative w-full overflow-hidden bg-cover bg-no-repeat h-96"
         >
           <img
-            class="w-full transition duration-300 ease-in-out hover:scale-110"
+            class="w-full h-64 object-cover transition duration-300 ease-in-out hover:scale-110"
             :src="image"
             alt="default"
           />
