@@ -122,6 +122,7 @@ export const updateBlockStatus = (id) => {
 
 export const getUserWishes = (id) => {
   const uri = `/users/${id}/wishes`;
+  console.log("getUserWishes : " + uri);
   return instance.get(uri);
 };
 
