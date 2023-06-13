@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import UserWishMainView from "@/views/wish/UserWishMainView.vue";
 import WishCreateView from "@/views/wish/WishCreateView.vue";
-import WishUpdateView from "@/views/wish/WishUpdateView.vue";
 
 const routes = [
   {
@@ -71,11 +70,6 @@ const routes = [
       }
       next();
     },
-  },
-  {
-    path: "/wishUpdate",
-    name: "wishUpdate",
-    component: WishUpdateView,
   },
   {
     path: "/wishDelete",
