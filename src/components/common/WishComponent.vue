@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white">
-    <div class="w-full">
+    <div class="w-full h-64">
       <router-link
         :to="{
           name: 'wishHistory',
@@ -8,7 +8,11 @@
         }"
         class="block"
       >
-        <img class="w-full h-full object-cover" :src="imgSrc" alt="default" />
+        <img
+          class="w-full h-64 object-cover transition duration-300 ease-in-out hover:scale-110"
+          :src="imgSrc"
+          alt="default"
+        />
       </router-link>
     </div>
     <div class="px-1.5">
@@ -19,13 +23,13 @@
         }"
       >
         <h5
-          class="my-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="mt-8 mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white"
         >
           {{ props.productName }}
         </h5>
       </router-link>
 
-      <p class="mb-1.5 font-normal text-gray-400 dark:text-gray-400">
+      <p class="mb-4 font-normal text-gray-400 dark:text-gray-400">
         {{ props.nickname }}
       </p>
       <p class="mb-1.5 font-normal text-gray-700 dark:text-gray-400">

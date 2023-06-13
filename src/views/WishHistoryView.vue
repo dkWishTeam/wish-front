@@ -1,18 +1,24 @@
 <template>
-  <div
-    class="flex flex-col mx-auto max-w-screen-lg"
-    :style="
-      updatePercent >= 100
-        ? `background-image: url('/images/celebration3.gif');`
-        : ''
-    "
-  >
-    <WishInfo :wishId="routeWishId" :init="init" class="mt-12"></WishInfo>
-    <Progress :wishId="routeWishId" @update-percent="handlePercent" />
-    <Records :wishId="routeWishId"></Records>
-    <ModalComponent :wishId="routeWishId"></ModalComponent>
+  <div class="w-3/5 mx-auto">
+    <div
+      class="flex flex-col mx-auto flex-grow"
+      :style="
+        updatePercent >= 100
+          ? `background-image: url('/images/celebration3.gif');`
+          : ''
+      "
+    >
+      <WishInfo
+        :wishId="routeWishId"
+        :init="init"
+        class="mt-12 w-full"
+      ></WishInfo>
+      <Progress :wishId="routeWishId" @update-percent="handlePercent" />
+      <Records :wishId="routeWishId"></Records>
+      <ModalComponent :wishId="routeWishId"></ModalComponent>
 
-    <!--    <Pagination :pagingUtil="result.pageResponseHistoryListDto?.pagingUtil"/>-->
+      <!--    <Pagination :pagingUtil="result.pageResponseHistoryListDto?.pagingUtil"/>-->
+    </div>
   </div>
 </template>
 

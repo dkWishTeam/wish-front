@@ -1,7 +1,14 @@
 <template>
   <div
+    v-if="result.wishHistoryRateDto?.percent == 0"
+    class="w-full px-5 py-3 rounded-xl"
+  >
+    {{ result.msg }}
+  </div>
+  <div
     id="progressBarBox"
-    class="clear-both pt-12 px-7 pb-10 shadow rounded-lg"
+    v-else
+    class="w-full clear-both pt-12 px-7 pb-10 shadow rounded-lg"
   >
     {{ data }}
     <div class="flex items-center justify-between mb-3 pr-16">
@@ -27,14 +34,8 @@
 
 <script setup>
 import { wishHistoryInfoStore } from "@/store/wishHistoryInfo";
-import {
-  ref,
-  computed,
-  defineProps,
-  watchEffect,
-  defineEmits,
-  onMounted,
-} from "vue";
+import { ref, computed, defineProps, watchEffect, defineEmits } from "vue";
+import { storeToRefs } from "pinia";
 
 const percent = ref("");
 const cheerUpPhrase = ref("");
@@ -44,19 +45,7 @@ const props = defineProps({
 });
 
 const store = wishHistoryInfoStore();
-// const init = async () => {
-//   await store.fetchData(props.wishId);
-//   const result = store.result;
-//   console.log("result: ", result);
-//   percent.value = result.wishHistoryRateDto.percent;
-//   cheerUpPhrase.value = result.wishHistoryRateDto.cheerUpPhrase;
-// };
-//
-// init();
-
-// onMounted(() => {
-//   store.fetchData(props.wishId);
-// });
+const { result } = storeToRefs(store);
 
 store.$subscribe(() => {
   const storeResult = store.result;

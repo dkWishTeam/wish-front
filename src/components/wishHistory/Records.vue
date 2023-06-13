@@ -72,7 +72,7 @@
             id="modifyButton"
             class="relative cursor-pointer"
           >
-            수정하기
+            수정
           </button>
         </span>
       </td>

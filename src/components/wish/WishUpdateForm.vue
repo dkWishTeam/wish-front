@@ -5,13 +5,8 @@
         <h1
           class="text-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white"
         >
-          위시 등록하기
+          위시 수정하기
         </h1>
-        <p
-          class="text-center mb-2 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400"
-        >
-          당신의 위시를 실현하는 첫걸음 이에요!
-        </p>
       </article>
 
       <section class="max-w-6xl mx-auto">
@@ -205,7 +200,7 @@
               class="mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-6 py-3.5 text-center"
               id="submit-button"
             >
-              등록하기
+              수정하기
             </button>
             <button
               type="reset"
@@ -222,10 +217,21 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, defineProps } from "vue";
 import defaultImage from "@/images/default.png";
-import { createWish } from "@/services/requestHandler";
+import { createWish, updateWish } from "@/services/requestHandler";
+import { getWishStore } from "@/store/wishStore";
 import router from "@/router";
+import { storeToRefs } from "pinia";
+
+const wishStore = getWishStore();
+console.log(wishStore.prevData);
+console.log(wishStore.$id);
+console.log(wishStore.getUserWishData(), 180);
+
+const props = defineProps({
+  wishId: Number,
+});
 
 //[0] = id
 //[1] = userId
@@ -238,7 +244,7 @@ import router from "@/router";
 //[8] = completionStatus
 //[9] = image
 const inputValue = ref([
-  0,
+  "",
   localStorage.getItem("id"),
   true,
   "",
@@ -249,6 +255,7 @@ const inputValue = ref([
   false,
   "",
 ]);
+console.log(inputValue.value);
 const file = ref({});
 
 const toggleChecked = () => {
@@ -285,7 +292,7 @@ const submitForm = async (event) => {
   const json = JSON.stringify({
     id: inputValue.value[0],
     userId: inputValue.value[1],
-    publicStatus: inputValue.value[2],
+    isPublic: inputValue.value[2],
     title: inputValue.value[3],
     productName: inputValue.value[4],
     goalAmount: inputValue.value[5],
@@ -295,18 +302,19 @@ const submitForm = async (event) => {
     // image: "",
   });
   const blob = new Blob([json], { type: "application/json" });
-  formData.append("wishRequestDto", blob);
-  const createdId = ref();
+  formData.append("WishUpdateDto", blob);
+  const currentId = wish.id;
 
   try {
-    createdId.value = await createWish(localStorage.getItem("id"), formData);
+    // createdId.value = await createWish(localStorage.getItem("id"), formData);
+    await updateWish(localStorage.getItem("id"), currentId, formData);
   } catch (error) {
     console.log(error);
   }
   await router.push({
     name: "wishHistory",
     params: {
-      wishId: createdId.value,
+      wishId: currentId,
     },
   });
 };

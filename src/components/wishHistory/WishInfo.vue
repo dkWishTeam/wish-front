@@ -1,5 +1,5 @@
 <template>
-  <div id="wishBox" class="px-4 pt-12">
+  <div id="wishBox" class="w-full px-4 pt-12">
     <div id="wishTitleBox">
       <p id="wishTitle" class="mt-4 text-lg text-gray-500">
         <span>{{ result.wishUserDto?.nickname }}님의</span>
@@ -29,6 +29,7 @@
 
 <script setup>
 import { wishHistoryInfoStore } from "@/store/wishHistoryInfo";
+import { getWishStore } from "@/store/wishStore";
 import { defineProps } from "vue";
 import { storeToRefs } from "pinia";
 import router from "@/router";
@@ -41,10 +42,13 @@ const props = defineProps({
   wishId: { type: Number, default: 12 },
 });
 
+const wishStore = getWishStore();
+
 function updateWish() {
+  wishStore.prevData = wishStore.getUserWishData(props.wishId);
+  wishStore.$id = 1;
   router.push({
     name: "wishUpdate",
-    params: {},
   });
 }
 

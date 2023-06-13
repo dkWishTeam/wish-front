@@ -125,7 +125,7 @@ const searchWish = ref("");
 const selectedPath = ref("all");
 
 const curPage = ref(1);
-const pageList = ref([]);
+const pageList = ref(1);
 
 const titleArr = {
   all: "전체",
@@ -133,9 +133,6 @@ const titleArr = {
   ongoing: "진행중",
   new: "최신",
 };
-console.log("으아아아ㅏ아");
-// store.updateWishPlace("all", 0, PAGE_COUNT);
-// store.updateWishPlaceCount("all");
 
 const init = () => {
   store.updateWishPlace("all", 0, PAGE_COUNT);
@@ -154,7 +151,7 @@ const searchWishSubmit = () => {
 };
 
 const goToPage = () => {
-  store.updateSearchWishPlace(searchWish.value, curPage.value - 1, PAGE_COUNT);
+  store.updateWishPlace(selectedPath.value, curPage.value - 1, PAGE_COUNT);
 };
 const goToPrevPage = () => {
   if (curPage.value > 1) {
@@ -163,7 +160,7 @@ const goToPrevPage = () => {
   }
 };
 const goToNextPage = () => {
-  if (curPage.value < pageList.value.length) {
+  if (curPage.value < pageList.value) {
     curPage.value++;
     goToPage();
   }
@@ -171,18 +168,11 @@ const goToNextPage = () => {
 
 watchEffect(() => {
   if (store.wishPlaceListCount % PAGE_COUNT === 0)
-    pageList.value = Array.from(
-      { length: store.wishPlaceListCount / PAGE_COUNT },
-      (_, index) => index + 1
-    );
-  else
-    pageList.value = Array.from(
-      { length: Math.trunc(store.wishPlaceListCount / PAGE_COUNT) + 1 },
-      (_, index) => index + 1
-    );
+    pageList.value = store.wishPlaceListCount / PAGE_COUNT;
+  else pageList.value = Math.trunc(store.wishPlaceListCount / PAGE_COUNT) + 1;
 
-  if (curPage.value > pageList.value.length) {
-    curPage.value = pageList.value.length;
+  if (curPage.value > pageList.value) {
+    curPage.value = pageList.value;
   }
   wishList.value = store.wishPlaceList;
 });
