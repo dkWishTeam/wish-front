@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import UserWishMainView from "@/views/wish/UserWishMainView.vue";
+import WishCreateView from "@/views/wish/WishCreateView.vue";
 
 const routes = [
   {
@@ -8,13 +10,80 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/login",
+    name: "login",
+    component: () => import("../views/LoginView.vue"),
+    meta: { isLogined: true },
+  },
+  {
+    path: "/signUp",
+    name: "signUp",
+    component: () => import("../views/SignUpView.vue"),
+    meta: { isLogined: true },
+  },
+  {
+    path: "/myPage",
+    name: "myPage",
+    component: () => import("../views/MyPageView.vue"),
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("userId") == null) {
+        next("/");
+        return;
+      }
+      next();
+    },
+  },
+  {
+    path: "/memberManagement",
+    name: "memberManagement",
+    component: () => import("../views/MemberManagementView.vue"),
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("userRole") !== "ROLE_ADMIN") {
+        alert("관리자가 아닙니다.");
+        return;
+      }
+      next();
+    },
+  },
+  {
+    path: "/users/:id/wishes",
+    name: "UserWishMainView",
+    component: UserWishMainView,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("userId") === null) {
+        alert("로그인을 해주세요.");
+        next("/login");
+        return;
+      }
+      next();
+    },
+  },
+  {
+    path: "/wishCreate",
+    name: "wishCreate",
+    component: WishCreateView,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("userId") == null) {
+        alert("로그인을 해주세요");
+        next("/login");
+        return;
+      }
+      next();
+    },
+  },
+  {
+    path: "/wishDelete",
+    name: "wishDelete",
+  },
+  {
+    path: "/wishes/:wishId/wishHistories",
+    name: "wishHistory",
+    component: () => import("../views/WishHistoryView.vue"),
+  },
+  {
+    path: "/wishPlace",
+    name: "wishPlace",
+    component: () => import("../views/WishPlaceView.vue"),
   },
 ];
 
@@ -23,4 +92,32 @@ const router = createRouter({
   routes,
 });
 
-export default router;
+const navigateToHome = () => {
+  router.push({ name: "home" });
+};
+
+const navigateToLogin = () => {
+  router.push({ name: "login" });
+};
+
+router.beforeEach(function (to, from, next) {
+  // to : 이동할 페이지
+  // from : 현재 페이지
+  if (to.meta.isLogined && localStorage.getItem("userId") !== null) {
+    next("/");
+    return;
+  }
+  if (
+    to.meta.authManagerRequired &&
+    localStorage.getItem("userRole") !== "ROLE_ADMIN"
+  ) {
+    alert("관리자가 아닙니다.");
+    //next("/");
+    return;
+  }
+  next();
+});
+
+export default router; // 기본 내보내기로 설정
+
+export { navigateToHome, navigateToLogin };
